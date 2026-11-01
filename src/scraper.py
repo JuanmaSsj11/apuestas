@@ -194,7 +194,21 @@ class SportsDataScraper:
             if not events and allow_undated_fallback:
                 fb_resp = self.session.get(f"{ESPN_BASE}/{sport}/{league}/scoreboard", timeout=self.timeout)
                 if fb_resp.status_code == 200:
-                    events = fb_resp.json().get("events", [])
+                    raw_fb_events = fb_resp.json().get("events", [])
+                    target_iso_prefix = f"{target_date[:4]}-{target_date[4:6]}-{target_date[6:8]}"
+                    events = []
+                    for ev in raw_fb_events:
+                        ev_d = ev.get("date", "")
+                        if ev_d:
+                            try:
+                                dt_c = datetime.fromisoformat(ev_d.replace("Z", "+00:00")).astimezone(CST_TZ)
+                                if dt_c.strftime("%Y-%m-%d") >= target_iso_prefix:
+                                    events.append(ev)
+                            except Exception:
+                                if ev_d >= target_iso_prefix:
+                                    events.append(ev)
+                        else:
+                            events.append(ev)
 
             sigma_map = {
                 "basketball": 11.8,
@@ -1271,7 +1285,7 @@ class SportsDataScraper:
 
         if len(upcoming_today) < 6:
             base_dt = datetime.strptime(today_ymd, "%Y%m%d")
-            for offset in (1, 2):
+            for offset in range(1, 8):
                 cand_dt = base_dt + timedelta(days=offset)
                 if cand_dt.weekday() == 5 or offset == 1:
                     cand_ymd = cand_dt.strftime("%Y%m%d")
@@ -1432,6 +1446,17 @@ class SportsDataScraper:
         pre_only = [m for m in all_matches if m.get("state") == "pre"]
         return pre_only if pre_only else all_matches
 
+    @staticmethod
+    def _is_game_on_date(raw_iso: str, target_ymd: str) -> bool:
+        if not raw_iso:
+            return False
+        try:
+            clean_iso = raw_iso.replace("Z", "+00:00")
+            dt_utc = datetime.fromisoformat(clean_iso)
+            return dt_utc.astimezone(CST_TZ).strftime("%Y-%m-%d") == target_ymd
+        except Exception:
+            return raw_iso.startswith(target_ymd)
+
     def fetch_baseball_all_leagues(self, date_str: str = None) -> List[Dict[str, Any]]:
         """
         Aggregates baseball matchups across:
@@ -1451,11 +1476,30 @@ class SportsDataScraper:
             if resp_lmp.status_code == 200:
                 data_lmp = resp_lmp.json()
                 dates = data_lmp.get("dates", [])
-                if not dates:
-                    fb_url = "https://statsapi.mlb.com/api/v1/schedule?sportId=17&leagueId=132&hydrate=team,linescore"
-                    fb_resp = self.session.get(fb_url, timeout=self.timeout)
-                    if fb_resp.status_code == 200:
-                        dates = fb_resp.json().get("dates", [])
+                
+                # Check if target_ymd has any upcoming (non-final) games
+                has_upcoming = False
+                for d in dates:
+                    for g in d.get("games", []):
+                        det = g.get("status", {}).get("detailedState", "")
+                        if det not in ("Final", "Game Over", "Completed"):
+                            has_upcoming = True
+                            break
+                    if has_upcoming:
+                        break
+
+                # If no upcoming games on target date (e.g. late at night and already finished), check next day
+                if not has_upcoming:
+                    try:
+                        next_ymd = (datetime.strptime(target_ymd, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")
+                        next_url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=17&leagueId=132&date={next_ymd}&hydrate=team,linescore"
+                        resp_next = self.session.get(next_url, timeout=self.timeout)
+                        if resp_next.status_code == 200:
+                            dates_next = resp_next.json().get("dates", [])
+                            if dates_next:
+                                dates = dates_next
+                    except Exception as e_next:
+                        logger.debug(f"LMP next-day fetch: {e_next}")
 
                 for d in dates:
                     for g in d.get("games", []):
@@ -1467,13 +1511,15 @@ class SportsDataScraper:
                         str_rec_a = f"{rec_a.get('wins', 0)}-{rec_a.get('losses', 0)}"
                         str_rec_h = f"{rec_h.get('wins', 0)}-{rec_h.get('losses', 0)}"
                         det_state = g.get("status", {}).get("detailedState", "Scheduled")
-                        state = "post" if det_state in ("Final", "Game Over") else ("in" if det_state in ("In Progress",) else "pre")
+                        state = "post" if det_state in ("Final", "Game Over", "Completed") else ("in" if det_state in ("In Progress",) else "pre")
                         raw_dt = g.get("gameDate", "")
                         cst_time = ""
+                        game_local_date = target_ymd
                         if raw_dt:
                             try:
                                 dt_cst = datetime.fromisoformat(raw_dt.replace("Z", "+00:00")).astimezone(CST_TZ)
                                 cst_time = dt_cst.strftime("%H:%M CST")
+                                game_local_date = dt_cst.strftime("%Y-%m-%d")
                             except Exception:
                                 pass
 
@@ -1502,7 +1548,7 @@ class SportsDataScraper:
                             "event_id": g_pk,
                             "name": f"{t_away} @ {t_home}",
                             "date": raw_dt,
-                            "local_date": target_ymd,
+                            "local_date": game_local_date,
                             "kickoff_cst": cst_time,
                             "status": det_state,
                             "state": state,
@@ -1544,13 +1590,15 @@ class SportsDataScraper:
                         t_away = g.get("teams", {}).get("away", {}).get("team", {}).get("name", "")
                         t_home = g.get("teams", {}).get("home", {}).get("team", {}).get("name", "")
                         det_state = g.get("status", {}).get("detailedState", "Scheduled")
-                        state = "post" if det_state in ("Final", "Game Over") else ("in" if det_state in ("In Progress",) else "pre")
+                        state = "post" if det_state in ("Final", "Game Over", "Completed") else ("in" if det_state in ("In Progress",) else "pre")
                         raw_dt = g.get("gameDate", "")
                         cst_time = ""
+                        game_local_date = target_ymd
                         if raw_dt:
                             try:
                                 dt_cst = datetime.fromisoformat(raw_dt.replace("Z", "+00:00")).astimezone(CST_TZ)
                                 cst_time = dt_cst.strftime("%H:%M CST")
+                                game_local_date = dt_cst.strftime("%Y-%m-%d")
                             except Exception:
                                 pass
                         all_baseball_games.append({
@@ -1558,7 +1606,7 @@ class SportsDataScraper:
                             "event_id": g_pk,
                             "name": f"{t_away} @ {t_home}",
                             "date": raw_dt,
-                            "local_date": target_ymd,
+                            "local_date": game_local_date,
                             "kickoff_cst": cst_time,
                             "status": det_state,
                             "state": state,
@@ -1600,13 +1648,15 @@ class SportsDataScraper:
                         t_away = g.get("teams", {}).get("away", {}).get("team", {}).get("name", "")
                         t_home = g.get("teams", {}).get("home", {}).get("team", {}).get("name", "")
                         det_state = g.get("status", {}).get("detailedState", "Scheduled")
-                        state = "post" if det_state in ("Final", "Game Over") else ("in" if det_state in ("In Progress",) else "pre")
+                        state = "post" if det_state in ("Final", "Game Over", "Completed") else ("in" if det_state in ("In Progress",) else "pre")
                         raw_dt = g.get("gameDate", "")
                         cst_time = ""
+                        game_local_date = target_ymd
                         if raw_dt:
                             try:
                                 dt_cst = datetime.fromisoformat(raw_dt.replace("Z", "+00:00")).astimezone(CST_TZ)
                                 cst_time = dt_cst.strftime("%H:%M CST")
+                                game_local_date = dt_cst.strftime("%Y-%m-%d")
                             except Exception:
                                 pass
                         all_baseball_games.append({
@@ -1614,7 +1664,7 @@ class SportsDataScraper:
                             "event_id": g_pk,
                             "name": f"{t_away} @ {t_home}",
                             "date": raw_dt,
-                            "local_date": target_ymd,
+                            "local_date": game_local_date,
                             "kickoff_cst": cst_time,
                             "status": det_state,
                             "state": state,
@@ -1644,10 +1694,16 @@ class SportsDataScraper:
         except Exception as e:
             logger.debug(f"NPB fetch info: {e}")
 
-        # 4. MLB from ESPN
+        # 4. MLB from ESPN (strictly no undated fallback to avoid stale past games)
         try:
-            mlb_espn = self.fetch_espn_scoreboard("baseball", "mlb", date_str=compact_ymd, allow_undated_fallback=True)
+            mlb_espn = self.fetch_espn_scoreboard("baseball", "mlb", date_str=compact_ymd, allow_undated_fallback=False)
             for g in mlb_espn:
+                raw_d = g.get("date", "")
+                if raw_d and not self._is_game_on_date(raw_d, target_ymd):
+                    continue
+                st_val = str(g.get("status", "")).upper()
+                if g.get("state") == "post" or st_val.endswith("FINAL") or "FULL_TIME" in st_val:
+                    continue
                 g_copy = dict(g)
                 g_copy["league"] = "MLB"
                 g_copy["league_name"] = "Major League Baseball"

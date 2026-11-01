@@ -197,6 +197,10 @@ class SelectionEngine:
         candidates = []
 
         for g in analyzed_games:
+            # Skip games that are already completed
+            st_val = str(g.get("status", "")).upper()
+            if g.get("state") == "post" or st_val.endswith("FINAL") or "FULL_TIME" in st_val or st_val in ("FINAL", "GAME OVER", "FT"):
+                continue
             h_team = g["home_team"]
             a_team = g["away_team"]
             game_str = g.get("matchup") or f"{a_team} @ {h_team}"
@@ -584,6 +588,9 @@ class SelectionEngine:
         """
         valid_legs = []
         for mkt in alt_markets_pool:
+            st_m = str(mkt.get("status", "")).upper()
+            if mkt.get("state") == "post" or st_m.endswith("FINAL") or "FULL_TIME" in st_m or st_m in ("FINAL", "GAME OVER", "FT"):
+                continue
             sp = (mkt.get("sport") or "").upper()
             if sp in ("NCAAF", "TENIS"):
                 continue
@@ -663,6 +670,9 @@ class SelectionEngine:
         """
         valid_props = []
         for prop in star_props_pool:
+            st_p = str(prop.get("status", "")).upper()
+            if prop.get("state") == "post" or st_p.endswith("FINAL") or "FULL_TIME" in st_p or st_p in ("FINAL", "GAME OVER", "FT"):
+                continue
             sp = (prop.get("sport") or "").upper()
             if sp in ("NCAAF", "TENIS", "FUTBOL"):
                 continue
@@ -742,6 +752,10 @@ class SelectionEngine:
 
         # 1. Main-Board Money Line Favorites (-150 to -560 when main-board only, real_prob >= 61.5%)
         for g in analyzed_games:
+            # Skip games that are already completed
+            st_val = str(g.get("status", "")).upper()
+            if g.get("state") == "post" or st_val.endswith("FINAL") or "FULL_TIME" in st_val or st_val in ("FINAL", "GAME OVER", "FT"):
+                continue
             h_team = g["home_team"]
             a_team = g["away_team"]
             game_str = g.get("matchup") or f"{a_team} @ {h_team}"

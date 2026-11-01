@@ -413,11 +413,19 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     ai_agent = QuantitativeAIAgent(history_data=history.data)
 
     now_cst = datetime.now(CST_TZ)
-    today_str = now_cst.strftime("%Y-%m-%d")
-    today_ymd = now_cst.strftime("%Y%m%d")
+    # Operational betting date:
+    # When running late in the evening (>= 21:00 CST), same-day slates across major sports
+    # are already completed. Sportsbooks roll over to the upcoming day's slate.
+    if now_cst.hour >= 21:
+        active_target_dt = now_cst + timedelta(days=1)
+    else:
+        active_target_dt = now_cst
+
+    today_str = active_target_dt.strftime("%Y-%m-%d")
+    today_ymd = active_target_dt.strftime("%Y%m%d")
 
     print("\n" + "=" * 84)
-    print("[FASE 1] SCRAPING MULTI-FUENTE EN TIEMPO REAL (ESPN + KALSHI + ACTION SHARP + FOROS)")
+    print(f"[FASE 1] SCRAPING MULTI-FUENTE EN TIEMPO REAL (FECHA OPERATIVA: {today_str})")
     print("=" * 84)
 
     nba_espn_raw = scraper.fetch_espn_scoreboard("basketball", "nba", date_str=today_ymd, allow_undated_fallback=False)
@@ -447,7 +455,14 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
                     pass
 
     mlb_espn_raw = scraper.fetch_baseball_all_leagues(date_str=today_str)
-    mlb_espn = mlb_espn_raw
+    mlb_espn = [g for g in mlb_espn_raw if g.get("state") != "post" and not str(g.get("status", "")).upper().endswith("FINAL")]
+    if not mlb_espn and mlb_espn_raw:
+        # If all games on today_str are final, look at tomorrow
+        next_bb_dt = (active_target_dt + timedelta(days=1)).strftime("%Y-%m-%d")
+        mlb_espn_next = scraper.fetch_baseball_all_leagues(date_str=next_bb_dt)
+        mlb_espn = [g for g in mlb_espn_next if g.get("state") != "post" and not str(g.get("status", "")).upper().endswith("FINAL")]
+    if not mlb_espn:
+        mlb_espn = mlb_espn_raw
 
     kalshi_data = scraper.fetch_all_kalshi_sports()
     kalshi_by_sport = kalshi_data.get("by_sport", {})
@@ -498,6 +513,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     nba_totals_pool: List[Dict[str, Any]] = []
 
     for g in nba_espn:
+        st_nba = str(g.get("status", "")).upper()
+        if g.get("state") == "post" or st_nba.endswith("FINAL") or "FULL_TIME" in st_nba:
+            continue
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]
@@ -702,6 +720,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     nhl_totals_pool: List[Dict[str, Any]] = []
 
     for g in nhl_espn:
+        st_nhl = str(g.get("status", "")).upper()
+        if g.get("state") == "post" or st_nhl.endswith("FINAL") or "FULL_TIME" in st_nhl:
+            continue
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]
@@ -882,6 +903,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     soccer_totals_pool: List[Dict[str, Any]] = []
 
     for g in soccer_espn:
+        st_soc = str(g.get("status", "")).upper()
+        if g.get("state") == "post" or st_soc.endswith("FINAL") or "FULL_TIME" in st_soc:
+            continue
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]
@@ -1231,6 +1255,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     tennis_analyzed_games: List[Dict[str, Any]] = []
 
     for m in tennis_espn:
+        st_ten = str(m.get("status", "")).upper()
+        if m.get("state") == "post" or st_ten.endswith("FINAL") or "COMPLETED" in st_ten:
+            continue
         ev_id = str(m.get("id") or "")
         p1_name = m["p1"]["name"]
         p2_name = m["p2"]["name"]
@@ -1323,6 +1350,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     mlb_totals_pool: List[Dict[str, Any]] = []
 
     for g in today_mlb:
+        st_mlb = str(g.get("status", "")).upper()
+        if g.get("state") == "post" or st_mlb.endswith("FINAL") or "FULL_TIME" in st_mlb:
+            continue
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]
@@ -1412,6 +1442,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     nfl_by_horario: Dict[str, List[Dict[str, Any]]] = {"Temprano": [], "Tarde y Noche": []}
 
     for g in nfl_espn:
+        st_nfl = str(g.get("status", "")).upper()
+        if g.get("state") == "post" or st_nfl.endswith("FINAL") or "FULL_TIME" in st_nfl:
+            continue
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]

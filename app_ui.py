@@ -14,7 +14,8 @@ Strictly zero emojis.
 """
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from typing import Any, Dict, List
 
 import streamlit as st
@@ -328,7 +329,9 @@ html, body, [class*="css"] {
 """)
 
 history = HistoryTracker()
-today_str = datetime.now().strftime("%Y-%m-%d")
+CST_TZ = ZoneInfo("America/Mexico_City")
+now_cst = datetime.now(CST_TZ)
+today_str = (now_cst + timedelta(days=1)).strftime("%Y-%m-%d") if now_cst.hour >= 21 else now_cst.strftime("%Y-%m-%d")
 
 # ==============================================================================
 # EXECUTIVE QUANTITATIVE TERMINAL HEADER
@@ -384,6 +387,7 @@ if "results" not in st.session_state or st.session_state.get("pipeline_date") !=
         st.session_state.pipeline_date = today_str
 
 res = st.session_state.results
+today_str = res.get("active_date", today_str)
 scorecards = res.get("scorecards") or history.sync_and_grade_all_tickets()
 
 with col_status:
