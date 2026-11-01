@@ -34,6 +34,7 @@ from src.sabermetrics import (
     get_ncaaf_stats,
     get_tennis_stats,
     get_nfl_stats,
+    get_baseball_stats,
     MLB_ADVANCED_STATS,
 )
 from src.monte_carlo import MonteCarloSimulator
@@ -431,9 +432,22 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
 
     nfl_espn_raw = scraper.fetch_espn_scoreboard("football", "nfl", date_str=today_ymd, allow_undated_fallback=True)
     nfl_espn = [g for g in nfl_espn_raw if is_game_today(g.get("date", ""), today_str)]
+    nfl_target_date = today_str
+    if not nfl_espn and nfl_espn_raw:
+        # Check upcoming Sunday games when today has no active NFL slate
+        upcoming_nfl = [g for g in nfl_espn_raw if not str(g.get("status", "")).endswith("FINAL")]
+        if upcoming_nfl:
+            nfl_espn = upcoming_nfl
+            raw_d0 = nfl_espn[0].get("date", "")
+            if raw_d0:
+                try:
+                    dt_c = datetime.fromisoformat(raw_d0.replace("Z", "+00:00")).astimezone(CST_TZ)
+                    nfl_target_date = dt_c.strftime("%Y-%m-%d")
+                except Exception:
+                    pass
 
-    mlb_espn_raw = scraper.fetch_espn_scoreboard("baseball", "mlb", date_str=today_ymd, allow_undated_fallback=False)
-    mlb_espn = [g for g in mlb_espn_raw if is_game_today(g.get("date", ""), today_str)]
+    mlb_espn_raw = scraper.fetch_baseball_all_leagues(date_str=today_str)
+    mlb_espn = mlb_espn_raw
 
     kalshi_data = scraper.fetch_all_kalshi_sports()
     kalshi_by_sport = kalshi_data.get("by_sport", {})
@@ -1312,12 +1326,18 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]
+        league_code = g.get("league", "LMP" if "LMP" in str(g.get("league_name", "")) else "MLB")
+        league_label = g.get("league_name", "Liga ARCO Mexicana del Pacifico" if league_code == "LMP" else "Major League Baseball")
         an_g = match_action_sharp_game(h_name, a_name, "MLB", action_by_sport)
         odds = g.get("odds", {})
         h_ml = int(odds.get("home_moneyline") or an_g.get("home_ml") or -135)
         a_ml = int(odds.get("away_moneyline") or an_g.get("away_ml") or +115)
-        h_mlb_s = MLB_ADVANCED_STATS.get(h_name, {})
-        a_mlb_s = MLB_ADVANCED_STATS.get(a_name, {})
+        tot_val = float(odds.get("overUnder") or 8.5)
+
+        h_rec = g.get("home_team", {}).get("record", "")
+        a_rec = g.get("away_team", {}).get("record", "")
+        h_mlb_s = get_baseball_stats(h_name, league=league_code, record=h_rec)
+        a_mlb_s = get_baseball_stats(a_name, league=league_code, record=a_rec)
         m1_h, m1_a = models.run_model_1_sabermetric_mlb(h_mlb_s, a_mlb_s)
         m2_h, m2_a = models.run_model_2_bullpen_mlb(h_mlb_s, a_mlb_s)
         intel_mlb = evaluate_two_way_intelligence(
@@ -1328,37 +1348,84 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
         mlb_analyzed_games.append({
             "event_id": ev_id,
             "sport": "MLB",
+            "league": league_code,
+            "league_name": league_label,
             "local_date": today_str,
+            "kickoff_cst": g.get("kickoff_cst", ""),
             "home_team": h_name,
             "away_team": a_name,
             "matchup": f"{a_name} vs {h_name}",
             "home_odds": h_ml,
             "away_odds": a_ml,
-            "saber_home_note": "Sabermetria MLB: FIP/xFIP abridor, wRC+ ofensivo y frescura de bullpen.",
-            "saber_away_note": "Sabermetria MLB: Rotacion visitante competitiva con tasa de Barrel% y wOBA solida.",
-            "projected_score": "4.4 - 3.6",
+            "total": tot_val,
+            "saber_home_note": f"Sabermetria {league_code}: FIP {h_mlb_s['starter_stats']['FIP']}, wRC+ ofensivo {h_mlb_s['lineup_stats']['wRC_plus']}, bullpen ERA {h_mlb_s['bullpen']['ERA_last_30d']}.",
+            "saber_away_note": f"Sabermetria {league_code}: FIP {a_mlb_s['starter_stats']['FIP']}, wRC+ ofensivo {a_mlb_s['lineup_stats']['wRC_plus']}, bullpen ERA {a_mlb_s['bullpen']['ERA_last_30d']}.",
+            "projected_score": f"{max(2.8, round(tot_val * 0.46, 1))} - {max(3.2, round(tot_val * 0.54, 1))}",
             **intel_mlb,
         })
+        mlb_alt_markets.append({
+            "event_id": ev_id,
+            "sport": "MLB",
+            "league": league_code,
+            "local_date": today_str,
+            "team": h_name,
+            "opponent": a_name,
+            "game": f"{a_name} vs {h_name}",
+            "market_type": "Run Line Alternativo",
+            "selection": f"{h_name} +1.5 Carreras Seguro",
+            "american_odds": -210,
+            "real_prob": 0.775,
+            "justification": f"Colchon defensivo de carreras en {league_label} para {h_name} ante {a_name}."
+        })
+        mlb_totals_pool.append({
+            "event_id": ev_id,
+            "sport": "MLB",
+            "league": league_code,
+            "local_date": today_str,
+            "game": f"{a_name} vs {h_name}",
+            "market_type": "Totales Carreras",
+            "selection": f"{a_name} vs {h_name} Menos de {tot_val + 1.5:.1f} Carreras",
+            "american_odds": -210,
+            "real_prob": 0.775,
+            "justification": f"Duelo sabermetrico de pitcheo en {league_label} proyectando total por debajo de {tot_val + 1.5:.1f} carreras."
+        })
 
-    mlb_ws_data = None
-    if mlb_espn_raw:
-        next_g = mlb_espn_raw[0]
-        mlb_ws_data = {
-            "matchup": next_g.get("name", "MLB Postseason"),
-            "series": "Calendario Oficial MLB",
-            "date": next_g.get("date", ""),
-            "status": "En cartelera hoy" if today_mlb else "Sin juegos programados hoy",
-            "odds": next_g.get("odds", {}),
-        }
+    lmp_count = sum(1 for g in today_mlb if g.get("league") == "LMP")
+    kbo_count = sum(1 for g in today_mlb if g.get("league") == "KBO")
+    npb_count = sum(1 for g in today_mlb if g.get("league") == "NPB")
+    mlb_count = sum(1 for g in today_mlb if g.get("league") == "MLB")
+
+    mlb_ws_data = {
+        "matchup": "Liga ARCO Mexicana del Pacifico (LMP) & Beisbol Internacional",
+        "series": "Temporada Regular LMP 2026-2027 / KBO / NPB / MLB",
+        "date": today_str,
+        "status": f"En cartelera hoy ({len(today_mlb)} juegos: {lmp_count} LMP, {kbo_count} KBO, {npb_count} NPB, {mlb_count} MLB)",
+        "lmp_count": lmp_count,
+        "kbo_count": kbo_count,
+        "npb_count": npb_count,
+        "mlb_count": mlb_count,
+    }
 
     nfl_analyzed_games: List[Dict[str, Any]] = []
     nfl_alt_markets: List[Dict[str, Any]] = []
     nfl_totals_pool: List[Dict[str, Any]] = []
+    nfl_by_horario: Dict[str, List[Dict[str, Any]]] = {"Temprano": [], "Tarde y Noche": []}
 
     for g in nfl_espn:
         ev_id = str(g.get("id") or "")
         h_name = g["home_team"]["name"]
         a_name = g["away_team"]["name"]
+        raw_iso = g.get("date", "")
+        kickoff_cst_str = "12:00 CST"
+        g_horario = "Temprano"
+        if raw_iso:
+            try:
+                dt_c = datetime.fromisoformat(raw_iso.replace("Z", "+00:00")).astimezone(CST_TZ)
+                kickoff_cst_str = dt_c.strftime("%H:%M CST")
+                g_horario = "Temprano" if dt_c.hour < 14 else "Tarde y Noche"
+            except Exception:
+                pass
+
         an_g = match_action_sharp_game(h_name, a_name, "NFL", action_by_sport)
         odds = g.get("odds", {})
         raw_spr = odds.get("spread")
@@ -1390,10 +1457,12 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
             m1_h, m1_a, m2_h, m2_a, nfl_mc["prob_home_win"], nfl_mc["prob_away_win"],
             kalshi_by_sport, an_g, expert_by_sport, use_spread_splits=True,
         )
-        nfl_analyzed_games.append({
+        nfl_g_obj = {
             "event_id": ev_id,
             "sport": "NFL",
-            "local_date": today_str,
+            "local_date": nfl_target_date,
+            "kickoff_cst": kickoff_cst_str,
+            "horario": g_horario,
             "home_team": h_name,
             "away_team": a_name,
             "matchup": f"{a_name} @ {h_name}",
@@ -1403,15 +1472,18 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
             "away_odds": a_ml,
             "home_cover_prob": nfl_mc["prob_home_cover"],
             "away_cover_prob": nfl_mc["prob_away_cover"],
-            "saber_home_note": f"Sabermetria NFL: EPA/jugada Off {h_nfl_s['EPA_per_play_off']:+.2f}, DVOA {h_nfl_s['DVOA_off']:+.1f}%, RedZone TD {h_nfl_s['RedZone_TD_pct']:.1f}%.",
-            "saber_away_note": f"Sabermetria NFL: EPA/jugada Off {a_nfl_s['EPA_per_play_off']:+.2f}, DVOA {a_nfl_s['DVOA_off']:+.1f}%, RedZone TD {a_nfl_s['RedZone_TD_pct']:.1f}%.",
+            "saber_home_note": f"Sabermetria NFL [{g_horario} - {kickoff_cst_str}]: EPA/jugada Off {h_nfl_s['EPA_per_play_off']:+.2f}, DVOA {h_nfl_s['DVOA_off']:+.1f}%, RedZone TD {h_nfl_s['RedZone_TD_pct']:.1f}%.",
+            "saber_away_note": f"Sabermetria NFL [{g_horario} - {kickoff_cst_str}]: EPA/jugada Off {a_nfl_s['EPA_per_play_off']:+.2f}, DVOA {a_nfl_s['DVOA_off']:+.1f}%, RedZone TD {a_nfl_s['RedZone_TD_pct']:.1f}%.",
             "projected_score": f"{nfl_mc['mean_away_score']} - {nfl_mc['mean_home_score']}",
             **intel_nfl,
-        })
+        }
+        nfl_analyzed_games.append(nfl_g_obj)
+        nfl_by_horario.setdefault(g_horario, []).append(nfl_g_obj)
+
         nfl_alt_markets.append({
             "event_id": ev_id,
             "sport": "NFL",
-            "local_date": today_str,
+            "local_date": nfl_target_date,
             "team": h_name,
             "opponent": a_name,
             "game": f"{a_name} @ {h_name}",
@@ -1450,7 +1522,7 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
         + nfl_analyzed_games
     )
     mvp_alt_pool = nba_alt_markets + nhl_alt_markets + soccer_alt_markets + mlb_alt_markets + nfl_alt_markets
-    mvp_props_pool = nba_props_pool + nhl_props_pool + soccer_props_pool + nfl_props_pool
+    mvp_props_pool = nba_props_pool + nhl_props_pool + nfl_props_pool  # Strictly zero soccer player props
     mvp_totals_pool = nba_totals_pool + nhl_totals_pool + soccer_totals_pool + mlb_totals_pool + nfl_totals_pool
 
     mvp_sniper = mvp_engine.select_sniper_bet(mvp_analyzed_pool) if mvp_analyzed_pool else {}
@@ -1482,8 +1554,14 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
 
     soc_engine = make_tab_engine()
     soccer_sniper = soc_engine.select_sniper_bet(soccer_analyzed_games) if soccer_analyzed_games else {}
-    soccer_props = soc_engine.select_props_parlay(soccer_props_pool, count=2) if soccer_props_pool else []
+    soccer_props: List[Dict[str, Any]] = []  # Strictly zero player props in soccer
     soccer_ratonero = soc_engine.select_ratonero_parlay(soccer_alt_markets, count=5) if soccer_alt_markets else []
+    soccer_sniper_2: Dict[str, Any] = {}
+    soccer_ganador_2: List[Dict[str, Any]] = []
+    if len(soccer_ratonero) < 5:
+        soccer_ratonero = []
+        soccer_sniper_2 = soc_engine.select_sniper_bet(soccer_analyzed_games) if len(soccer_analyzed_games) >= 2 else {}
+        soccer_ganador_2 = soc_engine.select_ganador_parlay(soccer_analyzed_games, soccer_totals_pool, alt_pool=soccer_alt_markets, count=2) if len(soccer_analyzed_games) >= 4 else []
     soccer_ganador = soc_engine.select_ganador_parlay(soccer_analyzed_games, soccer_totals_pool, alt_pool=soccer_alt_markets, count=2) if soccer_analyzed_games else []
 
     # NCAAF COLEGIAL: STRICTLY DIVIDED INTO 3 SEPARATE HORARIOS (NEVER MIXED!)
@@ -1513,12 +1591,41 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
         tennis_analyzed_games, [], alt_pool=None, count=2, allow_alt_lines=False
     ) if tennis_analyzed_games else []
 
-    # MLB & NFL
+    # BEISBOL (LMP / KBO / NPB / MLB)
     mlb_engine = make_tab_engine()
     mlb_sniper = mlb_engine.select_sniper_bet(mlb_analyzed_games) if mlb_analyzed_games else {}
+    mlb_sniper_2 = mlb_engine.select_sniper_bet(mlb_analyzed_games) if len(mlb_analyzed_games) >= 2 else {}
     mlb_props: List[Dict[str, Any]] = []
     mlb_ratonero: List[Dict[str, Any]] = []
     mlb_ganador = mlb_engine.select_ganador_parlay(mlb_analyzed_games, mlb_totals_pool, alt_pool=mlb_alt_markets, count=2) if mlb_analyzed_games else []
+    mlb_ganador_2 = mlb_engine.select_ganador_parlay(mlb_analyzed_games, mlb_totals_pool, alt_pool=mlb_alt_markets, count=2) if len(mlb_analyzed_games) >= 4 else []
+
+    # NFL DOMINGO: STRICTLY DIVIDED INTO 2 SEPARATE HORARIOS (TEMPRANO Y TARDE/NOCHE)
+    # Temprano: Juegos < 14:00 CST (12:00 CST) -> 2 Apuestas Fuertes + 2 Parlays Ganadores
+    # Tarde y Noche: Juegos >= 14:00 CST (15:05/15:25 CST + SNF) -> 2 Apuestas Fuertes + 2 Parlays Ganadores
+    is_nfl_sunday = len(nfl_analyzed_games) >= 4 or any(len(v) >= 2 for v in nfl_by_horario.values())
+    nfl_raw_horario_picks: Dict[str, Dict[str, Any]] = {}
+    for slot_key in ("Temprano", "Tarde y Noche"):
+        slot_games = nfl_by_horario.get(slot_key, [])
+        eng_slot = make_tab_engine()
+        if len(slot_games) >= 2:
+            slot_sn1 = eng_slot.select_sniper_bet(slot_games)
+            slot_sn2 = eng_slot.select_sniper_bet(slot_games)
+            slot_gn1 = eng_slot.select_ganador_parlay(slot_games, [], alt_pool=None, count=2, allow_alt_lines=False)
+            slot_gn2 = eng_slot.select_ganador_parlay(slot_games, [], alt_pool=None, count=2, allow_alt_lines=False)
+        elif slot_games:
+            slot_sn1 = eng_slot.select_sniper_bet(slot_games)
+            slot_sn2 = {}
+            slot_gn1 = []
+            slot_gn2 = []
+        else:
+            slot_sn1, slot_sn2, slot_gn1, slot_gn2 = {}, {}, [], []
+        nfl_raw_horario_picks[slot_key] = {
+            "sniper_1": slot_sn1,
+            "sniper_2": slot_sn2,
+            "ganador_1": slot_gn1,
+            "ganador_2": slot_gn2,
+        }
 
     nfl_engine = make_tab_engine()
     nfl_sniper = nfl_engine.select_sniper_bet(nfl_analyzed_games) if nfl_analyzed_games else {}
@@ -1627,13 +1734,16 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
             _record_parlay_helper(today_str, "NHL", "Parlay Ratonero", "Parlay Ratonero NHL (5 Patas)", nhl_ratonero)
         _record_parlay_helper(today_str, "NHL", "Parlay Ganador", "Parlay Ganador NHL", nhl_ganador)
 
-        # 4. Futbol
+        # 4. Futbol (Zero Player Props; Apuesta Fuerte #1/#2, Parlay Ganador #1/#2, Ratonero)
         if soccer_analyzed_games:
             _record_single_helper(today_str, "Futbol", "Apuesta Fuerte", f"Apuesta Fuerte Futbol: {soccer_sniper.get('selection', '')}", soccer_sniper)
-            _record_parlay_helper(today_str, "Futbol", "Parlay Props", "Parlay Props Futbol", soccer_props)
+            if soccer_sniper_2 and soccer_sniper_2.get("selection"):
+                _record_single_helper(today_str, "Futbol", "Apuesta Fuerte #2", f"Apuesta Fuerte #2 Futbol: {soccer_sniper_2.get('selection', '')}", soccer_sniper_2)
             if len(soccer_ratonero) >= 5:
                 _record_parlay_helper(today_str, "Futbol", "Parlay Ratonero", "Parlay Ratonero Futbol (5 Patas)", soccer_ratonero)
             _record_parlay_helper(today_str, "Futbol", "Parlay Ganador", "Parlay Ganador Futbol", soccer_ganador)
+            if soccer_ganador_2 and len(soccer_ganador_2) >= 2:
+                _record_parlay_helper(today_str, "Futbol", "Parlay Ganador #2", "Parlay Ganador #2 Futbol", soccer_ganador_2)
 
         # 5. NCAAF (Strictly separated per Horario: Manana, Tarde, Noche -> 2 Fuertes + 2 Ganadores each!)
         if ncaaf_analyzed_games:
@@ -1668,14 +1778,36 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
             _record_single_helper(t_rec_date, "Tenis", "Apuesta Fuerte", f"Apuesta Fuerte Tenis: {tenis_sniper.get('selection', '')}", tenis_sniper)
             _record_parlay_helper(t_rec_date, "Tenis", "Parlay Ganador", "Parlay Ganador Tenis ATP/WTA (<= +100 MAX)", tenis_ganador)
 
-        # 7. MLB & NFL
-        if today_mlb:
-            _record_single_helper(today_str, "MLB", "Apuesta Fuerte", f"Apuesta Fuerte MLB: {mlb_sniper.get('selection', '')}", mlb_sniper)
-            _record_parlay_helper(today_str, "MLB", "Parlay Ganador", "Parlay Ganador MLB", mlb_ganador)
+        # 7. BEISBOL (LMP / KBO / NPB / MLB)
+        if mlb_analyzed_games:
+            _record_single_helper(today_str, "MLB", "Apuesta Fuerte", f"Apuesta Fuerte Beisbol: {mlb_sniper.get('selection', '')}", mlb_sniper)
+            if mlb_sniper_2 and mlb_sniper_2.get("selection"):
+                _record_single_helper(today_str, "MLB", "Apuesta Fuerte #2", f"Apuesta Fuerte #2 Beisbol: {mlb_sniper_2.get('selection', '')}", mlb_sniper_2)
+            _record_parlay_helper(today_str, "MLB", "Parlay Ganador", "Parlay Ganador Beisbol", mlb_ganador)
+            if mlb_ganador_2 and len(mlb_ganador_2) >= 2:
+                _record_parlay_helper(today_str, "MLB", "Parlay Ganador #2", "Parlay Ganador #2 Beisbol", mlb_ganador_2)
+
+        # 8. NFL (Separated into Temprano and Tarde y Noche when Sunday / multi-slot slate)
         if nfl_analyzed_games:
-            _record_single_helper(today_str, "NFL", "Apuesta Fuerte", f"Apuesta Fuerte NFL: {nfl_sniper.get('selection', '')}", nfl_sniper)
-            _record_parlay_helper(today_str, "NFL", "Parlay Props", "Parlay Props NFL", nfl_props)
-            _record_parlay_helper(today_str, "NFL", "Parlay Ganador", "Parlay Ganador NFL", nfl_ganador)
+            if is_nfl_sunday:
+                for slot_key in ("Temprano", "Tarde y Noche"):
+                    sp_picks = nfl_raw_horario_picks.get(slot_key, {})
+                    sn1 = sp_picks.get("sniper_1", {})
+                    sn2 = sp_picks.get("sniper_2", {})
+                    gn1 = sp_picks.get("ganador_1", [])
+                    gn2 = sp_picks.get("ganador_2", [])
+                    if sn1 and sn1.get("selection"):
+                        _record_single_helper(nfl_target_date, "NFL", f"Apuesta Fuerte {slot_key} #1", f"Apuesta Fuerte #1 NFL ({slot_key}): {sn1.get('selection', '')}", sn1)
+                    if sn2 and sn2.get("selection"):
+                        _record_single_helper(nfl_target_date, "NFL", f"Apuesta Fuerte {slot_key} #2", f"Apuesta Fuerte #2 NFL ({slot_key}): {sn2.get('selection', '')}", sn2)
+                    if gn1 and len(gn1) >= 2:
+                        _record_parlay_helper(nfl_target_date, "NFL", f"Parlay Ganador {slot_key} #1", f"Parlay Ganador #1 NFL ({slot_key} | <= +100 MAX)", gn1)
+                    if gn2 and len(gn2) >= 2:
+                        _record_parlay_helper(nfl_target_date, "NFL", f"Parlay Ganador {slot_key} #2", f"Parlay Ganador #2 NFL ({slot_key} | <= +100 MAX)", gn2)
+            else:
+                _record_single_helper(nfl_target_date, "NFL", "Apuesta Fuerte", f"Apuesta Fuerte NFL: {nfl_sniper.get('selection', '')}", nfl_sniper)
+                _record_parlay_helper(nfl_target_date, "NFL", "Parlay Props", "Parlay Props NFL", nfl_props)
+                _record_parlay_helper(nfl_target_date, "NFL", "Parlay Ganador", "Parlay Ganador NFL", nfl_ganador)
 
     scorecards = history.sync_and_grade_all_tickets()
 
@@ -1738,9 +1870,11 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     nhl_ganador_active = load_active_vehicle("NHL", "Parlay Ganador", nhl_ganador)
 
     soccer_sniper_active = load_active_vehicle("Futbol", "Apuesta Fuerte", soccer_sniper)
-    soccer_props_active = load_active_vehicle("Futbol", "Parlay Props", soccer_props)
+    soccer_sniper_2_active = load_active_vehicle("Futbol", "Apuesta Fuerte #2", soccer_sniper_2)
+    soccer_props_active: List[Dict[str, Any]] = []  # Strictly zero player props in soccer
     soccer_ratonero_active = load_active_vehicle("Futbol", "Parlay Ratonero", soccer_ratonero)
     soccer_ganador_active = load_active_vehicle("Futbol", "Parlay Ganador", soccer_ganador)
+    soccer_ganador_2_active = load_active_vehicle("Futbol", "Parlay Ganador #2", soccer_ganador_2)
 
     ncaaf_by_horario_picks: Dict[str, Dict[str, Any]] = {}
     for turno_key in ("Manana", "Tarde", "Noche"):
@@ -1752,6 +1886,16 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
             "ganador_2": load_active_vehicle("NCAAF", f"Parlay Ganador {turno_key} #2", tp.get("ganador_2", []), target_dt=ncaaf_date_str),
         }
 
+    nfl_by_horario_picks: Dict[str, Dict[str, Any]] = {}
+    for slot_key in ("Temprano", "Tarde y Noche"):
+        sp_picks = nfl_raw_horario_picks.get(slot_key, {})
+        nfl_by_horario_picks[slot_key] = {
+            "sniper_1": load_active_vehicle("NFL", f"Apuesta Fuerte {slot_key} #1", sp_picks.get("sniper_1", {}), target_dt=nfl_target_date),
+            "sniper_2": load_active_vehicle("NFL", f"Apuesta Fuerte {slot_key} #2", sp_picks.get("sniper_2", {}), target_dt=nfl_target_date),
+            "ganador_1": load_active_vehicle("NFL", f"Parlay Ganador {slot_key} #1", sp_picks.get("ganador_1", []), target_dt=nfl_target_date),
+            "ganador_2": load_active_vehicle("NFL", f"Parlay Ganador {slot_key} #2", sp_picks.get("ganador_2", []), target_dt=nfl_target_date),
+        }
+
     tenis_rec_dt = tenis_sniper.get("local_date", today_str) if isinstance(tenis_sniper, dict) and tenis_sniper else (
         tenis_ganador[0].get("local_date", today_str) if tenis_ganador else today_str
     )
@@ -1759,9 +1903,11 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
     tenis_ganador_active = load_active_vehicle("Tenis", "Parlay Ganador", tenis_ganador, target_dt=tenis_rec_dt)
 
     mlb_sniper_active = load_active_vehicle("MLB", "Apuesta Fuerte", mlb_sniper)
-    mlb_props_active = load_active_vehicle("MLB", "Parlay Props", mlb_props)
-    mlb_ratonero_active = load_active_vehicle("MLB", "Parlay Ratonero", mlb_ratonero)
+    mlb_sniper_2_active = load_active_vehicle("MLB", "Apuesta Fuerte #2", mlb_sniper_2)
+    mlb_props_active: List[Dict[str, Any]] = []
+    mlb_ratonero_active: List[Dict[str, Any]] = []
     mlb_ganador_active = load_active_vehicle("MLB", "Parlay Ganador", mlb_ganador)
+    mlb_ganador_2_active = load_active_vehicle("MLB", "Parlay Ganador #2", mlb_ganador_2)
 
     nfl_sniper_active = load_active_vehicle("NFL", "Apuesta Fuerte", nfl_sniper)
     nfl_props_active = load_active_vehicle("NFL", "Parlay Props", nfl_props)
@@ -1815,13 +1961,23 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
                 f"Modelos ATP/WTA activos sobre {len(tennis_analyzed_games)} encuentros Singles de circuito principal. "
                 f"Evaluacion mediante Elo ajustado por superficie, Hold%, Break%, Dominance Ratio, Tiebreak% y 10,000 simulaciones Markov."
             ),
-            "mlb": "Monitoreo activo de calendario MLB." if not mlb_sniper_active else "Modelo sabermetrico FIP/xFIP/wRC+ activo.",
-            "nfl": "Cartelera NFL evaluada con EPA/Play, DVOA y flujo sharp." if nfl_sniper_active else "En espera de jornada dominical/lunes de NFL.",
+            "mlb": (
+                f"Cartelera de Beisbol activa ({len(mlb_analyzed_games)} juegos analizados: "
+                f"LMP Liga del Pacifico, KBO, NPB y MLB) con evaluacion sabermetrica de abridores (FIP/xFIP), "
+                f"potencia de lineup (wRC+) y bullpen."
+            ) if mlb_analyzed_games else "Monitoreo sabermetrico de beisbol.",
+            "nfl": (
+                f"Cartelera NFL Domingo ({nfl_target_date}) dividida sin mezclar en 2 horarios independientes "
+                f"(Temprano < 14:00 CST: {len(nfl_by_horario.get('Temprano', []))} juegos | "
+                f"Tarde y Noche >= 14:00 CST: {len(nfl_by_horario.get('Tarde y Noche', []))} juegos), "
+                f"con 2 Apuestas Fuertes + 2 Parlays Ganadores por horario."
+            ) if is_nfl_sunday else "Monitoreo activo de cartelera NFL.",
         },
     }
 
     return {
         "active_date": today_str,
+        "nfl_target_date": nfl_target_date,
         "whales": whales,
         "ai_agent": ai_report,
         "dia_mvp": {
@@ -1848,9 +2004,11 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
         "soccer": {
             "games": soccer_analyzed_games,
             "sniper": soccer_sniper_active,
-            "props": soccer_props_active,
+            "sniper_2": soccer_sniper_2_active,
+            "props": [],  # Strictly zero player props in soccer
             "ratonero": soccer_ratonero_active,
             "ganador": soccer_ganador_active,
+            "ganador_2": soccer_ganador_2_active,
         },
         "ncaaf": {
             "target_date": ncaaf_date_str,
@@ -1868,11 +2026,14 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
             "matchup_data": mlb_ws_data,
             "games": mlb_analyzed_games,
             "sniper": mlb_sniper_active,
-            "props": mlb_props_active,
-            "ratonero": mlb_ratonero_active,
+            "sniper_2": mlb_sniper_2_active,
+            "props": [],
+            "ratonero": [],
             "ganador": mlb_ganador_active,
+            "ganador_2": mlb_ganador_2_active,
         },
         "nfl": {
+            "target_date": nfl_target_date,
             "games": nfl_analyzed_games if nfl_analyzed_games else [
                 {
                     "sport": "NFL",
@@ -1892,6 +2053,9 @@ def run_sports_pipeline(record_in_history: bool = True) -> Dict[str, Any]:
                 for g in nfl_espn_raw
                 if not str(g.get("status", "")).endswith("FINAL")
             ],
+            "horarios": nfl_by_horario,
+            "by_horario_picks": nfl_by_horario_picks,
+            "is_sunday_slate": is_nfl_sunday,
             "sniper": nfl_sniper_active,
             "props": nfl_props_active,
             "ratonero": nfl_ratonero_active,

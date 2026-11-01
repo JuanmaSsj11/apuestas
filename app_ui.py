@@ -962,8 +962,8 @@ def _fmt_kalshi_sharp_cell(g: Dict[str, Any]) -> str:
     "FUTBOL (5 LIGAS + COPAS + MX)",
     "NBA",
     "NHL",
-    "NFL",
-    "MLB",
+    "NFL (DOMINGO - 2 HORARIOS)",
+    "BEISBOL (LMP / KBO / NPB / MLB)",
     "HISTORIAL Y RENDIMIENTO",
 ])
 
@@ -1215,7 +1215,18 @@ with tab_soccer:
     ])
 
     with sub_soc_v:
-        render_standard_4_vehicles(soc["sniper"], soc["props"], soc["ratonero"], soc["ganador"], "FUTBOL", slate_size=max(1, len(soc.get("games", []))))
+        # Cero props de jugadores en futbol. Estructura: 2 Apuestas Fuertes + 2 Parlays Ganadores (o Ratonero)
+        c1, c2 = st.columns(2)
+        with c1:
+            render_sniper_card(soc.get("sniper"), "APUESTA FUERTE #1", "FUTBOL", "#0f172a", slate_size=max(1, len(soc.get("games", []))))
+            if soc.get("sniper_2"):
+                render_sniper_card(soc.get("sniper_2"), "APUESTA FUERTE #2", "FUTBOL", "#334155", slate_size=max(1, len(soc.get("games", []))))
+        with c2:
+            render_ganador_card(soc.get("ganador", []), "PARLAY GANADOR #1", "FUTBOL", slate_size=max(1, len(soc.get("games", []))))
+            if soc.get("ganador_2"):
+                render_ganador_card(soc.get("ganador_2", []), "PARLAY GANADOR #2", "FUTBOL", slate_size=max(1, len(soc.get("games", []))))
+            if soc.get("ratonero"):
+                render_ratonero_card(soc.get("ratonero", []), "PARLAY RATONERO (5 PATAS)", slate_size=max(1, len(soc.get("games", []))))
 
     with sub_soc_c:
         games_soc = soc.get("games", [])
@@ -1321,64 +1332,226 @@ with tab_nhl:
 # TAB 7: NFL
 # ==============================================================================
 with tab_nfl:
-    render_scorecard_ribbon(scorecards["sports"]["nfl"], "NFL")
+    render_scorecard_ribbon(scorecards["sports"]["nfl"], "NFL (FUTBOL AMERICANO PROFESIONAL)")
     nfl = res["nfl"]
-    sub_nfl_v, sub_nfl_c, sub_nfl_h = st.tabs(["VEHICULOS ACTIVOS NFL", "CARTELERA NFL", "HISTORIAL NFL"])
+    is_sunday = nfl.get("is_sunday_slate", False)
+    by_horario_picks = nfl.get("by_horario_picks", {})
+    horarios_map = nfl.get("horarios", {})
+    games_nfl = nfl.get("games", [])
+    nfl_dt = nfl.get("target_date", today_str)
 
-    with sub_nfl_v:
-        render_standard_4_vehicles(nfl["sniper"], nfl["props"], nfl["ratonero"], nfl["ganador"], "NFL", slate_size=max(1, len(nfl.get("games", []))))
+    if is_sunday and by_horario_picks:
+        cnt_temp = len(horarios_map.get("Temprano", []))
+        cnt_tn = len(horarios_map.get("Tarde y Noche", []))
 
-    with sub_nfl_c:
-        games_nfl = nfl.get("games", [])
-        if games_nfl:
-            nfl_rows = []
-            for g in games_nfl:
-                hp = g.get("home_real_prob", 0.5)
-                ap = g.get("away_real_prob", 0.5)
-                nfl_rows.append({
-                    "Partido": g.get("matchup", "-"),
-                    "Spread": f"{g.get('spread', 0):+.1f}",
-                    "Total O/U": g.get("total", 0),
-                    "ML (Vis / Loc)": f"{int(g.get('away_odds', 0)):+d} / {int(g.get('home_odds', 0)):+d}",
-                    "Prob. Real (Vis / Loc)": f"{(ap*100 if ap<=1 else ap):.1f}% / {(hp*100 if hp<=1 else hp):.1f}%",
-                    "Kalshi / Sharp $": _fmt_kalshi_sharp_cell(g),
-                    "Proyeccion": g.get("projected_score", "-"),
-                })
-            st.dataframe(pd.DataFrame(nfl_rows), use_container_width=True, hide_index=True)
-        else:
-            st.info("Sin partidos de NFL programados para hoy.")
+        nk1, nk2, nk3 = st.columns(3)
+        with nk1:
+            render_clean_html(f"""
+            <div class="qt-kpi-card" style="border-top-color:#0f172a;">
+                <div class="qt-label">JORNADA DOMINICAL NFL</div>
+                <div class="qt-value">{nfl_dt}</div>
+                <div style="font-size:11px; color:#475569; margin-top:2px;">{len(games_nfl)} Partidos Analizados (DVOA / EPA / Kalshi / RLM)</div>
+            </div>
+            """)
+        with nk2:
+            render_clean_html(f"""
+            <div class="qt-kpi-card" style="border-top-color:#0284c7;">
+                <div class="qt-label">HORARIO 1: TEMPRANO (&lt; 14:00 CST)</div>
+                <div class="qt-value">{cnt_temp} Juegos</div>
+                <div style="font-size:11px; color:#0369a1; margin-top:2px;">2 Fuertes + 2 Parlays Ganadores Propios</div>
+            </div>
+            """)
+        with nk3:
+            render_clean_html(f"""
+            <div class="qt-kpi-card" style="border-top-color:#059669;">
+                <div class="qt-label">HORARIO 2: TARDE Y NOCHE (&ge; 14:00 CST)</div>
+                <div class="qt-value">{cnt_tn} Juegos</div>
+                <div style="font-size:11px; color:#047857; margin-top:2px;">Ventana de la Tarde + Sunday Night Football</div>
+            </div>
+            """)
 
-    with sub_nfl_h:
-        render_ticket_history_list(scorecards["sports"]["nfl"]["tickets"])
+        render_clean_html("""
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:9px 15px; margin-bottom:14px; font-size:12px; color:#1e293b;">
+            <span class="qt-pill-dark">DIVISION DOMINICAL ESTRICTA POR HORARIO</span>
+            <b>Estructura Domingo NFL:</b> La jornada dominical se divide estrictamente en dos turnos:
+            <b>Horario Temprano</b> (&lt; 14:00 CST) y <b>Horario Tarde y Noche</b> (&ge; 14:00 CST).
+            Cada bloque cuenta con sus propias <b>2 Apuestas Fuertes</b> y <b>2 Parlays Ganadores (&le; +100 MAX)</b>, sin mezclar partidos entre horarios.
+        </div>
+        """)
+
+        tab_nfl_temp, tab_nfl_tn, tab_nfl_all, tab_nfl_h = st.tabs([
+            f"HORARIO TEMPRANO (< 14:00 CST | {cnt_temp} JUEGOS)",
+            f"HORARIO TARDE Y NOCHE (>= 14:00 CST | {cnt_tn} JUEGOS)",
+            f"CARTELERA COMPLETA NFL ({len(games_nfl)} JUEGOS)",
+            "HISTORIAL NFL",
+        ])
+
+        for turno_tab, turno_key, turno_title, accent_c in (
+            (tab_nfl_temp, "Temprano", "HORARIO TEMPRANO (< 14:00 CST)", "#0284c7"),
+            (tab_nfl_tn, "Tarde y Noche", "HORARIO TARDE Y NOCHE (>= 14:00 CST)", "#059669"),
+        ):
+            with turno_tab:
+                tp = by_horario_picks.get(turno_key, {})
+                t_games = horarios_map.get(turno_key, [])
+                if not t_games:
+                    st.info(f"Sin partidos NFL en {turno_title}.")
+                else:
+                    c_left, c_right = st.columns(2)
+                    with c_left:
+                        render_sniper_card(tp.get("sniper_1"), f"APUESTA FUERTE #1 ({turno_key.upper()})", "NFL", accent_c, slate_size=len(t_games))
+                        render_sniper_card(tp.get("sniper_2"), f"APUESTA FUERTE #2 ({turno_key.upper()})", "NFL", "#0f172a", slate_size=len(t_games))
+                    with c_right:
+                        render_ganador_card(tp.get("ganador_1", []), f"PARLAY GANADOR #1 ({turno_key.upper()})", "NFL", slate_size=len(t_games))
+                        render_ganador_card(tp.get("ganador_2", []), f"PARLAY GANADOR #2 ({turno_key.upper()})", "NFL", slate_size=len(t_games))
+
+                    st.markdown(f"##### TABLA ANALITICA Y FLUJO SHARP - {turno_title}")
+                    rows_t = []
+                    for g in t_games:
+                        hp = g.get("home_real_prob", 0.5)
+                        ap = g.get("away_real_prob", 0.5)
+                        rows_t.append({
+                            "Kickoff": g.get("kickoff_cst", "-"),
+                            "Partido": g.get("matchup", "-"),
+                            "Spread": f"{g.get('spread', 0):+.1f}",
+                            "Total O/U": g.get("total", 0),
+                            "ML (Vis / Loc)": f"{int(g.get('away_odds', 0)):+d} / {int(g.get('home_odds', 0)):+d}",
+                            "Prob. Real (Vis / Loc)": f"{(ap*100 if ap<=1 else ap):.1f}% / {(hp*100 if hp<=1 else hp):.1f}%",
+                            "Kalshi / Sharp $": _fmt_kalshi_sharp_cell(g),
+                            "Proyeccion": g.get("projected_score", "-"),
+                        })
+                    st.dataframe(pd.DataFrame(rows_t), use_container_width=True, hide_index=True)
+
+        with tab_nfl_all:
+            if games_nfl:
+                rows_all = []
+                for g in games_nfl:
+                    hp = g.get("home_real_prob", 0.5)
+                    ap = g.get("away_real_prob", 0.5)
+                    rows_all.append({
+                        "Kickoff": g.get("kickoff_cst", "-"),
+                        "Partido": g.get("matchup", "-"),
+                        "Spread": f"{g.get('spread', 0):+.1f}",
+                        "Total O/U": g.get("total", 0),
+                        "ML (Vis / Loc)": f"{int(g.get('away_odds', 0)):+d} / {int(g.get('home_odds', 0)):+d}",
+                        "Prob. Real (Vis / Loc)": f"{(ap*100 if ap<=1 else ap):.1f}% / {(hp*100 if hp<=1 else hp):.1f}%",
+                        "Kalshi / Sharp $": _fmt_kalshi_sharp_cell(g),
+                        "Proyeccion": g.get("projected_score", "-"),
+                    })
+                st.dataframe(pd.DataFrame(rows_all), use_container_width=True, hide_index=True)
+            else:
+                st.info("Sin partidos de NFL programados.")
+
+        with tab_nfl_h:
+            render_ticket_history_list(scorecards["sports"]["nfl"]["tickets"])
+
+    else:
+        sub_nfl_v, sub_nfl_c, sub_nfl_h = st.tabs(["VEHICULOS ACTIVOS NFL", "CARTELERA NFL", "HISTORIAL NFL"])
+        with sub_nfl_v:
+            render_standard_4_vehicles(nfl["sniper"], nfl["props"], nfl["ratonero"], nfl["ganador"], "NFL", slate_size=max(1, len(games_nfl)))
+        with sub_nfl_c:
+            if games_nfl:
+                nfl_rows = []
+                for g in games_nfl:
+                    hp = g.get("home_real_prob", 0.5)
+                    ap = g.get("away_real_prob", 0.5)
+                    nfl_rows.append({
+                        "Kickoff": g.get("kickoff_cst", "-"),
+                        "Partido": g.get("matchup", "-"),
+                        "Spread": f"{g.get('spread', 0):+.1f}",
+                        "Total O/U": g.get("total", 0),
+                        "ML (Vis / Loc)": f"{int(g.get('away_odds', 0)):+d} / {int(g.get('home_odds', 0)):+d}",
+                        "Prob. Real (Vis / Loc)": f"{(ap*100 if ap<=1 else ap):.1f}% / {(hp*100 if hp<=1 else hp):.1f}%",
+                        "Kalshi / Sharp $": _fmt_kalshi_sharp_cell(g),
+                        "Proyeccion": g.get("projected_score", "-"),
+                    })
+                st.dataframe(pd.DataFrame(nfl_rows), use_container_width=True, hide_index=True)
+            else:
+                st.info("Sin partidos de NFL programados para hoy.")
+        with sub_nfl_h:
+            render_ticket_history_list(scorecards["sports"]["nfl"]["tickets"])
 
 
 # ==============================================================================
-# TAB 8: MLB
+# TAB 8: BEISBOL (LMP / KBO / NPB / MLB)
 # ==============================================================================
 with tab_mlb:
-    render_scorecard_ribbon(scorecards["sports"]["mlb"], "MLB")
+    render_scorecard_ribbon(scorecards["sports"]["mlb"], "BEISBOL (LMP / KBO / NPB / MLB)")
     mlb = res["mlb"]
-    sub_mlb_v, sub_mlb_c, sub_mlb_h = st.tabs(["VEHICULOS ACTIVOS MLB", "CALENDARIO MLB", "HISTORIAL MLB"])
+    games_bb = mlb.get("games", [])
+    mlb_ws_data = mlb.get("matchup_data", {})
 
-    with sub_mlb_v:
-        render_standard_4_vehicles(mlb["sniper"], mlb["props"], mlb["ratonero"], mlb["ganador"], "MLB", slate_size=max(1, len(mlb.get("games", []))))
+    render_clean_html(f"""
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:9px 15px; margin-bottom:14px; font-size:12px; color:#1e293b;">
+        <span class="qt-pill-dark">EXPANSION BEISBOL: LMP + KBO + NPB + MLB</span>
+        <b>Ligas y Torneos Integrados:</b> Cobertura de la <b>Liga ARCO Mexicana del Pacifico (LMP)</b> con sus 10 franquicias invernales,
+        series de campeonato <b>KBO (Corea)</b> y <b>NPB (Japon)</b>, y Serie Mundial de <b>MLB</b>. Modelos con FIP de abridores, wRC+ de lineups y park factors.
+    </div>
+    """)
 
-    with sub_mlb_c:
-        mlb_data = mlb.get("matchup_data", {})
-        if mlb_data:
+    sub_bb_v, sub_bb_c, sub_bb_h = st.tabs([
+        f"VEHICULOS ACTIVOS BEISBOL (+EV | {len(games_bb)} JUEGOS)",
+        f"CARTELERA LMP (LIGA DEL PACIFICO) & INTERNACIONAL ({len(games_bb)})",
+        "HISTORIAL BEISBOL",
+    ])
+
+    with sub_bb_v:
+        if not mlb.get("sniper") and not mlb.get("ganador") and not mlb.get("sniper_2") and not mlb.get("ganador_2"):
+            st.info("Sin selecciones de beisbol activas hoy.")
+        else:
+            c1, c2 = st.columns(2)
+            with c1:
+                render_sniper_card(mlb.get("sniper"), "APUESTA FUERTE #1 BEISBOL", "MLB", "#0f172a", slate_size=max(1, len(games_bb)))
+                if mlb.get("sniper_2"):
+                    render_sniper_card(mlb.get("sniper_2"), "APUESTA FUERTE #2 BEISBOL", "MLB", "#334155", slate_size=max(1, len(games_bb)))
+            with c2:
+                render_ganador_card(mlb.get("ganador", []), "PARLAY GANADOR #1 BEISBOL", "MLB", slate_size=max(1, len(games_bb)))
+                if mlb.get("ganador_2"):
+                    render_ganador_card(mlb.get("ganador_2", []), "PARLAY GANADOR #2 BEISBOL", "MLB", slate_size=max(1, len(games_bb)))
+
+    with sub_bb_c:
+        if games_bb:
+            bb_rows = []
+            for g in games_bb:
+                hp = float(g.get("home_real_prob", 0.5))
+                ap = float(g.get("away_real_prob", 0.5))
+                bb_rows.append({
+                    "Liga": g.get("league", "MLB"),
+                    "Hora CST": g.get("kickoff_cst", "-"),
+                    "Partido": g.get("matchup", "-"),
+                    "ML (Vis / Loc)": f"{int(g.get('away_odds', 0)):+d} / {int(g.get('home_odds', 0)):+d}",
+                    "Total O/U": g.get("total", 8.5),
+                    "Prob. Real (Vis / Loc)": f"{(ap*100 if ap<=1 else ap):.1f}% / {(hp*100 if hp<=1 else hp):.1f}%",
+                    "EV (Vis / Loc)": f"{float(g.get('away_ev', 0))*100:+.1f}% / {float(g.get('home_ev', 0))*100:+.1f}%",
+                    "Sabermetria Local": g.get("saber_home_note", "-"),
+                    "Sabermetria Visita": g.get("saber_away_note", "-"),
+                    "Proyeccion R-H": g.get("projected_score", "-"),
+                })
+            st.dataframe(pd.DataFrame(bb_rows), use_container_width=True, hide_index=True)
+        else:
+            st.info("Sin partidos de beisbol activos para hoy.")
+
+        if mlb_ws_data:
             render_clean_html(f"""
-            <div class="qt-card">
-                <div class="qt-label">ESTADO OFICIAL CALENDARIO MLB</div>
-                <div style="font-size:16px; font-weight:800; color:#0f172a;">{mlb_data.get('matchup', '-')}</div>
-                <div style="font-size:12.5px; color:#475569; margin-top:4px;">
-                    <b>Estado:</b> {mlb_data.get('status', '-')} &nbsp;|&nbsp; <b>Fecha:</b> {mlb_data.get('date', '-')}
+            <div class="qt-card" style="margin-top:14px;">
+                <div class="qt-label">ESTADO OFICIAL SERIE MUNDIAL MLB</div>
+                <div style="font-size:15px; font-weight:800; color:#0f172a;">{mlb_ws_data.get('matchup', '-')}</div>
+                <div style="font-size:12px; color:#475569; margin-top:3px;">
+                    <b>Estado:</b> {mlb_ws_data.get('status', '-')} &nbsp;|&nbsp; <b>Fecha:</b> {mlb_ws_data.get('date', '-')}
                 </div>
             </div>
             """)
-        else:
-            st.info("Fuera de jornada activa de MLB hoy.")
 
-    with sub_mlb_h:
+        render_clean_html("""
+        <div class="qt-card" style="margin-top:14px;">
+            <div class="qt-label">LIGAS ASIATICAS: KBO (COREA) & NPB (JAPON)</div>
+            <div style="font-size:12px; color:#334155; line-height:1.6;">
+                <b>KBO League (Corea):</b> Kia Tigers, Samsung Lions, LG Twins, Doosan Bears, KT Wiz. Modelo de contacto y bullpen KBO activo.<br>
+                <b>NPB Nippon Professional Baseball (Japon):</b> Yomiuri Giants, Hanshin Tigers, Fukuoka SoftBank Hawks, Yokohama DeNA BayStars. Calibracion de pitcheo dominante FIP &lt; 3.20.
+            </div>
+        </div>
+        """)
+
+    with sub_bb_h:
         render_ticket_history_list(scorecards["sports"]["mlb"]["tickets"])
 
 
@@ -1394,8 +1567,8 @@ with tab_audit:
         ("Futbol (5 Ligas + Copas + MX)", "futbol"),
         ("NBA", "nba"),
         ("NHL", "nhl"),
-        ("NFL", "nfl"),
-        ("MLB", "mlb"),
+        ("NFL (Domingo - 2 Horarios)", "nfl"),
+        ("Beisbol (LMP / KBO / NPB / MLB)", "mlb"),
     ]
     comp_rows = []
     for lbl, key in sp_labels:

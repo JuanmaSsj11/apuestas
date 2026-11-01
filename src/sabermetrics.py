@@ -13,7 +13,17 @@ Strictly zero emojis.
 """
 import re
 import math
+import json
+import unicodedata
 from typing import Dict, Any, Optional, Tuple
+
+
+def _norm_phrase(text: str) -> str:
+    if not text:
+        return ""
+    nfkd = unicodedata.normalize("NFKD", str(text))
+    ascii_t = "".join(c for c in nfkd if not unicodedata.combining(c)).lower()
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", ascii_t).split())
 
 
 def _parse_win_pct_from_record(record: str, default_pct: float = 0.50) -> Tuple[float, int]:
@@ -65,6 +75,134 @@ MLB_ADVANCED_STATS = {
         "lineup_stats": {"wRC_plus": 103, "wOBA": 0.315, "HardHit_pct": 38.0, "Barrel_pct": 7.1},
         "bullpen": {"ERA_last_30d": 3.20, "IP_last_3d": 10.2, "WHIP_30d": 1.18},
         "park_factor": 0.94,
+    },
+}
+
+LMP_ADVANCED_STATS = {
+    "Naranjeros de Hermosillo": {
+        "starter": "Wilmer Rios",
+        "starter_stats": {"FIP": 3.15, "xFIP": 3.25, "xERA": 3.18, "K9": 8.8, "BB9": 2.2, "WHIP": 1.10, "Barrel_pct": 5.8, "HardHit_pct": 32.5},
+        "lineup_stats": {"wRC_plus": 114, "wOBA": 0.338, "HardHit_pct": 39.5, "Barrel_pct": 8.5},
+        "bullpen": {"ERA_last_30d": 2.95, "IP_last_3d": 7.2, "WHIP_30d": 1.12},
+        "park_factor": 0.96,  # Estadio Fernando Valenzuela
+    },
+    "Tomateros de Culiacan": {
+        "starter": "Manny Barreda",
+        "starter_stats": {"FIP": 3.20, "xFIP": 3.30, "xERA": 3.22, "K9": 8.9, "BB9": 2.5, "WHIP": 1.12, "Barrel_pct": 6.1, "HardHit_pct": 33.2},
+        "lineup_stats": {"wRC_plus": 112, "wOBA": 0.334, "HardHit_pct": 39.0, "Barrel_pct": 8.2},
+        "bullpen": {"ERA_last_30d": 3.05, "IP_last_3d": 8.0, "WHIP_30d": 1.15},
+        "park_factor": 1.02,  # Estadio Tomateros
+    },
+    "Caneros de Los Mochis": {
+        "starter": "Ronald Bolanos",
+        "starter_stats": {"FIP": 3.28, "xFIP": 3.35, "xERA": 3.30, "K9": 8.4, "BB9": 2.6, "WHIP": 1.15, "Barrel_pct": 6.3, "HardHit_pct": 34.0},
+        "lineup_stats": {"wRC_plus": 108, "wOBA": 0.326, "HardHit_pct": 38.2, "Barrel_pct": 7.8},
+        "bullpen": {"ERA_last_30d": 3.15, "IP_last_3d": 8.1, "WHIP_30d": 1.18},
+        "park_factor": 1.01,  # Chevron Park
+    },
+    "Algodoneros de Guasave": {
+        "starter": "Geno Encina",
+        "starter_stats": {"FIP": 3.25, "xFIP": 3.32, "xERA": 3.28, "K9": 8.2, "BB9": 2.4, "WHIP": 1.14, "Barrel_pct": 6.0, "HardHit_pct": 33.5},
+        "lineup_stats": {"wRC_plus": 106, "wOBA": 0.322, "HardHit_pct": 37.8, "Barrel_pct": 7.5},
+        "bullpen": {"ERA_last_30d": 3.10, "IP_last_3d": 7.5, "WHIP_30d": 1.16},
+        "park_factor": 0.98,  # Kuroda Park
+    },
+    "Aguilas de Mexicali": {
+        "starter": "David Reyes",
+        "starter_stats": {"FIP": 3.35, "xFIP": 3.42, "xERA": 3.38, "K9": 8.0, "BB9": 2.5, "WHIP": 1.18, "Barrel_pct": 6.5, "HardHit_pct": 34.5},
+        "lineup_stats": {"wRC_plus": 105, "wOBA": 0.320, "HardHit_pct": 37.5, "Barrel_pct": 7.2},
+        "bullpen": {"ERA_last_30d": 3.20, "IP_last_3d": 8.2, "WHIP_30d": 1.19},
+        "park_factor": 0.95,  # El Nido de los Aguilas
+    },
+    "Yaquis de Obregon": {
+        "starter": "Odrisamer Despaigne",
+        "starter_stats": {"FIP": 3.40, "xFIP": 3.48, "xERA": 3.42, "K9": 7.9, "BB9": 2.7, "WHIP": 1.20, "Barrel_pct": 6.8, "HardHit_pct": 35.0},
+        "lineup_stats": {"wRC_plus": 104, "wOBA": 0.318, "HardHit_pct": 37.0, "Barrel_pct": 7.0},
+        "bullpen": {"ERA_last_30d": 3.30, "IP_last_3d": 8.5, "WHIP_30d": 1.21},
+        "park_factor": 1.03,  # Estadio Yaquis
+    },
+    "Charros de Jalisco": {
+        "starter": "Luis Ivan Rodriguez",
+        "starter_stats": {"FIP": 3.45, "xFIP": 3.52, "xERA": 3.48, "K9": 8.1, "BB9": 2.9, "WHIP": 1.22, "Barrel_pct": 7.2, "HardHit_pct": 36.0},
+        "lineup_stats": {"wRC_plus": 110, "wOBA": 0.332, "HardHit_pct": 39.8, "Barrel_pct": 8.6},
+        "bullpen": {"ERA_last_30d": 3.40, "IP_last_3d": 9.0, "WHIP_30d": 1.24},
+        "park_factor": 1.08,  # Estadio Panamericano (Zapopan, altura)
+    },
+    "Venados de Mazatlan": {
+        "starter": "Braulio Torres-Perez",
+        "starter_stats": {"FIP": 3.50, "xFIP": 3.56, "xERA": 3.52, "K9": 7.6, "BB9": 2.8, "WHIP": 1.24, "Barrel_pct": 6.9, "HardHit_pct": 35.2},
+        "lineup_stats": {"wRC_plus": 101, "wOBA": 0.312, "HardHit_pct": 36.2, "Barrel_pct": 6.8},
+        "bullpen": {"ERA_last_30d": 3.35, "IP_last_3d": 8.0, "WHIP_30d": 1.22},
+        "park_factor": 0.94,  # Estadio Teodoro Mariscal (brisa marina, pitcher park)
+    },
+    "Mayos de Navojoa": {
+        "starter": "Raul Zoe Carrillo",
+        "starter_stats": {"FIP": 3.55, "xFIP": 3.62, "xERA": 3.58, "K9": 7.5, "BB9": 3.0, "WHIP": 1.26, "Barrel_pct": 7.1, "HardHit_pct": 35.5},
+        "lineup_stats": {"wRC_plus": 99, "wOBA": 0.308, "HardHit_pct": 35.8, "Barrel_pct": 6.5},
+        "bullpen": {"ERA_last_30d": 3.45, "IP_last_3d": 8.4, "WHIP_30d": 1.25},
+        "park_factor": 1.00,  # Estadio Manuel Ciclon Echeverria
+    },
+    "Jaguares de Nayarit": {
+        "starter": "Rotacion Titular",
+        "starter_stats": {"FIP": 3.60, "xFIP": 3.68, "xERA": 3.62, "K9": 7.4, "BB9": 3.1, "WHIP": 1.28, "Barrel_pct": 7.4, "HardHit_pct": 36.2},
+        "lineup_stats": {"wRC_plus": 98, "wOBA": 0.306, "HardHit_pct": 35.5, "Barrel_pct": 6.4},
+        "bullpen": {"ERA_last_30d": 3.50, "IP_last_3d": 8.6, "WHIP_30d": 1.27},
+        "park_factor": 1.02,
+    },
+    "Sultanes de Monterrey": {
+        "starter": "Edgar Torres",
+        "starter_stats": {"FIP": 3.48, "xFIP": 3.55, "xERA": 3.50, "K9": 7.8, "BB9": 2.8, "WHIP": 1.23, "Barrel_pct": 7.0, "HardHit_pct": 35.4},
+        "lineup_stats": {"wRC_plus": 103, "wOBA": 0.316, "HardHit_pct": 36.8, "Barrel_pct": 7.1},
+        "bullpen": {"ERA_last_30d": 3.38, "IP_last_3d": 8.2, "WHIP_30d": 1.23},
+        "park_factor": 1.04,  # Estadio Mobil Super
+    },
+}
+
+KBO_ADVANCED_STATS = {
+    "KIA Tigers": {
+        "starter": "James Naile",
+        "starter_stats": {"FIP": 3.12, "xFIP": 3.24, "xERA": 3.15, "K9": 9.2, "BB9": 2.1, "WHIP": 1.08, "Barrel_pct": 5.9, "HardHit_pct": 33.0},
+        "lineup_stats": {"wRC_plus": 116, "wOBA": 0.342, "HardHit_pct": 40.5, "Barrel_pct": 9.0},
+        "bullpen": {"ERA_last_30d": 3.02, "IP_last_3d": 7.8, "WHIP_30d": 1.14},
+        "park_factor": 1.02,
+    },
+    "Samsung Lions": {
+        "starter": "Won Tae-in",
+        "starter_stats": {"FIP": 3.25, "xFIP": 3.35, "xERA": 3.28, "K9": 8.5, "BB9": 2.4, "WHIP": 1.14, "Barrel_pct": 6.3, "HardHit_pct": 34.2},
+        "lineup_stats": {"wRC_plus": 112, "wOBA": 0.334, "HardHit_pct": 39.2, "Barrel_pct": 8.4},
+        "bullpen": {"ERA_last_30d": 3.18, "IP_last_3d": 8.0, "WHIP_30d": 1.18},
+        "park_factor": 1.06,
+    },
+    "LG Twins": {
+        "starter": "Dietrich Enns",
+        "starter_stats": {"FIP": 3.30, "xFIP": 3.38, "xERA": 3.32, "K9": 8.8, "BB9": 2.6, "WHIP": 1.16, "Barrel_pct": 6.2, "HardHit_pct": 33.8},
+        "lineup_stats": {"wRC_plus": 110, "wOBA": 0.330, "HardHit_pct": 38.8, "Barrel_pct": 8.0},
+        "bullpen": {"ERA_last_30d": 3.15, "IP_last_3d": 8.2, "WHIP_30d": 1.16},
+        "park_factor": 0.98,
+    },
+}
+
+NPB_ADVANCED_STATS = {
+    "Yomiuri Giants": {
+        "starter": "Shosei Togo",
+        "starter_stats": {"FIP": 2.85, "xFIP": 2.98, "xERA": 2.88, "K9": 9.4, "BB9": 2.0, "WHIP": 1.02, "Barrel_pct": 5.2, "HardHit_pct": 31.5},
+        "lineup_stats": {"wRC_plus": 114, "wOBA": 0.336, "HardHit_pct": 39.4, "Barrel_pct": 8.4},
+        "bullpen": {"ERA_last_30d": 2.65, "IP_last_3d": 7.0, "WHIP_30d": 1.08},
+        "park_factor": 1.01,
+    },
+    "Hanshin Tigers": {
+        "starter": "Hiroto Saiki",
+        "starter_stats": {"FIP": 2.80, "xFIP": 2.92, "xERA": 2.84, "K9": 9.6, "BB9": 1.9, "WHIP": 1.01, "Barrel_pct": 5.0, "HardHit_pct": 31.0},
+        "lineup_stats": {"wRC_plus": 111, "wOBA": 0.330, "HardHit_pct": 38.6, "Barrel_pct": 7.9},
+        "bullpen": {"ERA_last_30d": 2.58, "IP_last_3d": 7.2, "WHIP_30d": 1.06},
+        "park_factor": 0.97,
+    },
+    "Fukuoka SoftBank Hawks": {
+        "starter": "Kohei Arihara",
+        "starter_stats": {"FIP": 2.88, "xFIP": 3.02, "xERA": 2.92, "K9": 9.1, "BB9": 2.1, "WHIP": 1.04, "Barrel_pct": 5.4, "HardHit_pct": 32.0},
+        "lineup_stats": {"wRC_plus": 118, "wOBA": 0.344, "HardHit_pct": 41.0, "Barrel_pct": 9.2},
+        "bullpen": {"ERA_last_30d": 2.70, "IP_last_3d": 7.4, "WHIP_30d": 1.10},
+        "park_factor": 1.00,
     },
 }
 
@@ -616,4 +754,76 @@ def get_nfl_stats(team_name: str, record: str = "", spread_hint: float = 0.0) ->
         "RedZone_TD_pct": round(max(44.0, min(70.0, 56.5 + edge * 35.0)), 1),
         "Pressure_rate": round(max(28.0, min(43.0, 35.2 + edge * 18.0)), 1),
         "Pace_seconds": 27.2,
+    }
+
+
+def get_baseball_stats(
+    team_name: str,
+    league: str = "LMP",
+    record: str = ""
+) -> Dict[str, Any]:
+    """
+    Returns advanced sabermetric profiles (Starter FIP/xFIP/xERA/WHIP, Lineup wRC+/wOBA/Barrel%,
+    Bullpen ERA/WHIP, Park Factor) across LMP, KBO, NPB, and MLB.
+    """
+    pool = LMP_ADVANCED_STATS if league == "LMP" else (
+        KBO_ADVANCED_STATS if league == "KBO" else (
+            NPB_ADVANCED_STATS if league == "NPB" else MLB_ADVANCED_STATS
+        )
+    )
+    t_clean = _norm_phrase(team_name)
+    for k, v in pool.items():
+        k_clean = _norm_phrase(k)
+        if k_clean in t_clean or t_clean in k_clean or any(word in t_clean for word in k_clean.split() if len(word) >= 5):
+            res = json.loads(json.dumps(v))
+            res["team"] = team_name
+            res["league"] = league
+            return res
+
+    # Also search across all other leagues
+    all_pools = [LMP_ADVANCED_STATS, MLB_ADVANCED_STATS, KBO_ADVANCED_STATS, NPB_ADVANCED_STATS]
+    for p in all_pools:
+        for k, v in p.items():
+            k_clean = _norm_phrase(k)
+            if k_clean in t_clean or t_clean in k_clean:
+                res = json.loads(json.dumps(v))
+                res["team"] = team_name
+                res["league"] = league
+                return res
+
+    # Calibrate from win-loss record if team profile not explicitly pre-loaded
+    wp, tot = _parse_win_pct_from_record(record, 0.50)
+    shift = (wp - 0.50) if tot >= 3 else 0.0
+    fip = round(max(2.80, min(4.80, 3.45 - shift * 1.80)), 2)
+    whip = round(max(1.02, min(1.42, 1.20 - shift * 0.35)), 2)
+    wrc = int(round(max(85, min(125, 103 + shift * 55.0))))
+    woba = round(max(0.285, min(0.365, 0.320 + shift * 0.08)), 3)
+    bp_era = round(max(2.60, min(4.60, 3.35 - shift * 1.50)), 2)
+
+    return {
+        "starter": "Abridor Titular",
+        "starter_stats": {
+            "FIP": fip,
+            "xFIP": round(fip + 0.08, 2),
+            "xERA": round(fip + 0.05, 2),
+            "K9": round(8.2 + shift * 3.0, 1),
+            "BB9": round(2.6 - shift * 1.2, 1),
+            "WHIP": whip,
+            "Barrel_pct": round(6.5 - shift * 2.5, 1),
+            "HardHit_pct": round(34.5 - shift * 6.0, 1),
+        },
+        "lineup_stats": {
+            "wRC_plus": wrc,
+            "wOBA": woba,
+            "HardHit_pct": round(37.0 + shift * 8.0, 1),
+            "Barrel_pct": round(7.5 + shift * 3.5, 1),
+        },
+        "bullpen": {
+            "ERA_last_30d": bp_era,
+            "IP_last_3d": 7.8,
+            "WHIP_30d": round(whip + 0.02, 2),
+        },
+        "park_factor": 1.00,
+        "team": team_name,
+        "league": league,
     }

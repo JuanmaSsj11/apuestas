@@ -5200,10 +5200,10 @@
       "is_parlay": false,
       "odds_american": -142,
       "odds_decimal": 1.704,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "GANADA",
+      "score_result": "Todas las selecciones cumplidas",
+      "units_pnl": 0.7,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401860909",
@@ -5227,8 +5227,8 @@
           "sharp_bonus": 2.66,
           "consensus_label": "Consenso 4/4 Modelos",
           "justification": "[Horario Tarde - 17:00 CST] Ventaja cuantitativa confirmada (Consenso 4/4 modelos) para San Diego State Aztecs ante Washington State Cougars. Probabilidad real del ensamble en 65.6% frente al 58.7% implicito del mercado (+11.73% EV). Sabermetria NCAAF: SP+ calibrado -2.0 vs -8.2, EPA/jugada Off +0.04 / Def +0.03, Success 43.9%, Finishing Drives 4.41, Havoc 17.3%. Proyeccion 10,000 sims Monte Carlo: 22.7 - 32.0. Flujo Sharp: 89% Dinero vs 70% Tickets (+19% divergencia).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Washington State Cougars 20 - San Diego State Aztecs 26"
         }
       ]
     },
@@ -5241,10 +5241,10 @@
       "is_parlay": false,
       "odds_american": -110,
       "odds_decimal": 1.909,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "GANADA",
+      "score_result": "Todas las selecciones cumplidas",
+      "units_pnl": 0.91,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401858281",
@@ -5270,8 +5270,8 @@
           "sharp_bonus": 3.0,
           "consensus_label": "Consenso 4/4 Modelos",
           "justification": "[Horario Tarde - 17:30 CST] Dominio estructural de Pittsburgh Panthers cubriendo la linea principal de -8.5 puntos ante Georgia Tech Yellow Jackets. En 10,000 simulaciones Monte Carlo calibradas supera el handicap en el 55.8% de los escenarios (+6.53% EV sobre momio -110, evitando pagar jugo excesivo en ML). Sabermetria NCAAF: SP+ calibrado +4.4 vs -6.2, EPA/jugada Off +0.08 / Def -0.01, Success 45.4%, Finishing Drives 4.64, Havoc 18.2%. Marcador medio simulado: 22.5 - 35.9. Kalshi CFTC: 75% (75c, Vol $1,612). Reverse Line Movement (RLM) confirmado.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:30 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Georgia Tech Yellow Jackets 11 - Pittsburgh Panthers 34"
         }
       ]
     },
@@ -5284,10 +5284,10 @@
       "is_parlay": true,
       "odds_american": -147,
       "odds_decimal": 1.683,
-      "status": "EN JUEGO",
-      "score_result": "En disputa (0 ganadas, 1 en juego)",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "GANADA",
+      "score_result": "Todas las selecciones cumplidas",
+      "units_pnl": 0.68,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401858506",
@@ -5305,8 +5305,8 @@
           "real_prob": 79.3,
           "ev": 0.43,
           "justification": "[Horario Tarde - 14:15 CST] Solidez cuantitativa de Penn State Nittany Lions ante Purdue Boilermakers en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 79.3% de probabilidad real de victoria. Sabermetria NCAAF: SP+ calibrado +7.7 vs -3.6, EPA/jugada Off +0.09 / Def -0.08, Success 44.9%, Finishing Drives 4.43, Havoc 18.7%. Proyeccion: 19.8 - 34.3. Reverse Line Movement (RLM) confirmado.",
-          "status": "EN JUEGO",
-          "score_result": "En Juego (9:23 - 4th Quarter): Purdue Boilermakers 14 - Penn State Nittany Lions 31"
+          "status": "GANADA",
+          "score_result": "Final: Purdue Boilermakers 17 - Penn State Nittany Lions 31"
         },
         {
           "event_id": "401858281",
@@ -5324,8 +5324,8 @@
           "real_prob": 77.4,
           "ev": 2.78,
           "justification": "[Horario Tarde - 17:30 CST] Solidez cuantitativa de Pittsburgh Panthers ante Georgia Tech Yellow Jackets en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 77.4% de probabilidad real de victoria. Sabermetria NCAAF: SP+ calibrado +4.4 vs -6.2, EPA/jugada Off +0.08 / Def -0.01, Success 45.4%, Finishing Drives 4.64, Havoc 18.2%. Proyeccion: 22.5 - 35.9. Kalshi CFTC: 75% (75c, Vol $1,612). Reverse Line Movement (RLM) confirmado.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:30 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Georgia Tech Yellow Jackets 11 - Pittsburgh Panthers 34"
         }
       ]
     },
@@ -5338,10 +5338,10 @@
       "is_parlay": true,
       "odds_american": -158,
       "odds_decimal": 1.633,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401858282",
@@ -5359,8 +5359,8 @@
           "real_prob": 85.2,
           "ev": -1.2,
           "justification": "[Horario Tarde - 17:30 CST] Ventaja estadistica consistente para Miami Hurricanes frente a North Carolina Tar Heels en mercado Money Line principal. Respaldado por 85.2% de probabilidad real en el ensamble de 4 modelos y simulaciones Monte Carlo. Sabermetria NCAAF: SP+ calibrado +19.0 vs -1.5, EPA/jugada Off +0.26 / Def -0.04, Success 51.2%, Finishing Drives 5.15, Havoc 18.1%. Proyeccion: 38.8 - 22.0. Consenso Analistas/Foros (CBS Sports, Action Network): 2 analisis activos destacando a Miami Hurricanes.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:30 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Miami Hurricanes 38 - North Carolina Tar Heels 35"
         },
         {
           "event_id": "401858509",
@@ -5378,8 +5378,8 @@
           "real_prob": 70.1,
           "ev": -1.32,
           "justification": "[Horario Tarde - 17:30 CST] Ventaja estadistica consistente para Ohio State Buckeyes frente a USC Trojans en mercado Money Line principal. Respaldado por 70.1% de probabilidad real en el ensamble de 4 modelos y simulaciones Monte Carlo. Sabermetria NCAAF: SP+ calibrado +18.3 vs +7.0, EPA/jugada Off +0.19 / Def -0.13, Success 48.6%, Finishing Drives 5.04, Havoc 20.3%. Proyeccion: 32.0 - 23.7. Respaldo Institucional: 70% Dinero (67% Tickets). Consenso Analistas/Foros (FOX Sports, The New York Times): 5 analisis activos destacando a Ohio State Buckeyes.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:30 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Ohio State Buckeyes 18 - USC Trojans 30"
         }
       ]
     },
@@ -5392,8 +5392,8 @@
       "is_parlay": false,
       "odds_american": -110,
       "odds_decimal": 1.909,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
+      "status": "EN JUEGO",
+      "score_result": "En disputa (0 ganadas, 1 en juego)",
       "units_pnl": 0.0,
       "settled_at": null,
       "legs": [
@@ -5419,8 +5419,8 @@
           "sharp_bonus": 1.82,
           "consensus_label": "Consenso 4/4 Modelos",
           "justification": "[Horario Noche - 20:00 CST] Dominio estructural de Boise State Broncos cubriendo la linea principal de -10.5 puntos ante Texas State Bobcats. En 10,000 simulaciones Monte Carlo calibradas supera el handicap en el 57.8% de los escenarios (+10.35% EV sobre momio -110, evitando pagar jugo excesivo en ML). Sabermetria NCAAF: SP+ calibrado +13.3 vs -0.8, EPA/jugada Off +0.21 / Def -0.02, Success 48.3%, Finishing Drives 4.88, Havoc 19.0%. Marcador medio simulado: 21.3 - 38.6. Flujo Sharp: 76% Dinero vs 63% Tickets (+13% divergencia).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 10:00 PM EDT"
+          "status": "EN JUEGO",
+          "score_result": "En Juego (0:32 - 2nd Quarter): Texas State Bobcats 3 - Boise State Broncos 21"
         }
       ]
     },
@@ -5433,8 +5433,8 @@
       "is_parlay": false,
       "odds_american": -110,
       "odds_decimal": 1.909,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
+      "status": "EN JUEGO",
+      "score_result": "En disputa (0 ganadas, 1 en juego)",
       "units_pnl": 0.0,
       "settled_at": null,
       "legs": [
@@ -5461,8 +5461,8 @@
           "sharp_bonus": 3.0,
           "consensus_label": "Consenso 4/4 Modelos",
           "justification": "[Horario Noche - 21:00 CST] Valor matematico detectado en Fresno State Bulldogs (momio directo +190, prob. real 40.1% vs 34.5% implicito). Siguiendo protocolo institucional de gestion de riesgo, se protege con el handicap principal +6.5 ('Que Cubra'), alcanzando 55.2% de cobertura calibrada en 10,000 simulaciones Monte Carlo (+5.38% EV). Sabermetria NCAAF: SP+ calibrado +0.2 vs +5.7, EPA/jugada Off +0.05 / Def +0.02, Success 44.4%, Finishing Drives 4.49, Havoc 17.6%. Proyeccion: 29.7 - 28.3. Reverse Line Movement (RLM) confirmado.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 11:00 PM EDT"
+          "status": "EN JUEGO",
+          "score_result": "En Juego (2:28 - 1st Quarter): Oregon State Beavers 3 - Fresno State Bulldogs 0"
         }
       ]
     },
@@ -5475,10 +5475,10 @@
       "is_parlay": true,
       "odds_american": -156,
       "odds_decimal": 1.639,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401858504",
@@ -5496,8 +5496,8 @@
           "real_prob": 72.6,
           "ev": -3.0,
           "justification": "[Horario Noche - 18:00 CST] Solidez cuantitativa de Nebraska Cornhuskers ante Washington Huskies en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 72.6% de probabilidad real de victoria. Sabermetria NCAAF: SP+ calibrado +6.0 vs -0.1, EPA/jugada Off +0.09 / Def -0.01, Success 45.8%, Finishing Drives 4.70, Havoc 18.4%. Proyeccion: 23.6 - 33.0. Kalshi CFTC: 74% (74c, Vol $13,132). Flujo Sharp: 70% Dinero vs 54% Tickets (+16% divergencia).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Washington Huskies 17 - Nebraska Cornhuskers 10"
         },
         {
           "event_id": "401860908",
@@ -5515,8 +5515,8 @@
           "real_prob": 83.0,
           "ev": 1.84,
           "justification": "[Horario Noche - 20:00 CST] Solidez cuantitativa de Boise State Broncos ante Texas State Bobcats en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 83.0% de probabilidad real de victoria. Sabermetria NCAAF: SP+ calibrado +13.3 vs -0.8, EPA/jugada Off +0.21 / Def -0.02, Success 48.3%, Finishing Drives 4.88, Havoc 19.0%. Proyeccion: 21.3 - 38.6. Flujo Sharp: 76% Dinero vs 63% Tickets (+13% divergencia).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 10:00 PM EDT"
+          "status": "EN JUEGO",
+          "score_result": "En Juego (0:49 - 2nd Quarter): Texas State Bobcats 3 - Boise State Broncos 21"
         }
       ]
     },
@@ -5529,8 +5529,8 @@
       "is_parlay": true,
       "odds_american": -185,
       "odds_decimal": 1.541,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
+      "status": "EN JUEGO",
+      "score_result": "En disputa (1 ganadas, 1 en juego)",
       "units_pnl": 0.0,
       "settled_at": null,
       "legs": [
@@ -5550,8 +5550,8 @@
           "real_prob": 66.9,
           "ev": -2.46,
           "justification": "[Horario Noche - 18:00 CST] Solidez cuantitativa de Memphis Tigers ante Army Black Knights en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 66.9% de probabilidad real de victoria. Sabermetria NCAAF: SP+ calibrado +6.4 vs +3.1, EPA/jugada Off +0.10 / Def -0.02, Success 45.9%, Finishing Drives 4.71, Havoc 18.5%. Proyeccion: 24.4 - 31.3. Kalshi CFTC: 66% (66c, Vol $1,681). Flujo Sharp: 60% Dinero vs 49% Tickets (+11% divergencia).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Army Black Knights 22 - Memphis Tigers 49"
         },
         {
           "event_id": "401864530",
@@ -5569,8 +5569,8 @@
           "real_prob": 92.0,
           "ev": -2.84,
           "justification": "[Horario Noche - 20:30 CST] Solidez cuantitativa de UNLV Rebels ante Northern Illinois Huskies en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 92.0% de probabilidad real de victoria. Sabermetria NCAAF: SP+ calibrado +6.1 vs -14.9, EPA/jugada Off +0.09 / Def -0.02, Success 45.8%, Finishing Drives 4.70, Havoc 18.5%. Proyeccion: 15.3 - 38.3.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 10:30 PM EDT"
+          "status": "EN JUEGO",
+          "score_result": "En Juego (2:55 - 2nd Quarter): Northern Illinois Huskies 17 - UNLV Rebels 17"
         }
       ]
     },
@@ -5583,10 +5583,10 @@
       "is_parlay": false,
       "odds_american": -142,
       "odds_decimal": 1.704,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "GANADA",
+      "score_result": "Todas las selecciones cumplidas",
+      "units_pnl": 0.7,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401860909",
@@ -5610,8 +5610,8 @@
           "sharp_bonus": 2.66,
           "consensus_label": "Consenso 4/4 Modelos",
           "justification": "[Horario Tarde - 17:00 CST] Ventaja cuantitativa confirmada (Consenso 4/4 modelos) para San Diego State Aztecs ante Washington State Cougars. Probabilidad real del ensamble en 65.6% frente al 58.7% implicito del mercado (+11.73% EV). Sabermetria NCAAF: SP+ calibrado -2.0 vs -8.2, EPA/jugada Off +0.04 / Def +0.03, Success 43.9%, Finishing Drives 4.41, Havoc 17.3%. Proyeccion 10,000 sims Monte Carlo: 22.7 - 32.0. Flujo Sharp: 89% Dinero vs 70% Tickets (+19% divergencia).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Washington State Cougars 20 - San Diego State Aztecs 26"
         }
       ]
     },
@@ -5624,10 +5624,10 @@
       "is_parlay": true,
       "odds_american": -111,
       "odds_decimal": 1.899,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:53",
       "legs": [
         {
           "event_id": "401892622",
@@ -5643,8 +5643,8 @@
           "real_prob": 91.3,
           "ev": 4.5,
           "justification": "Alto ritmo de disparos de alto peligro (xG combinado 6.88). Supera 4.5 goles totales en el 91.3% de 10,000 simulaciones Poisson.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Columbus Blue Jackets 1 - Dallas Stars 3"
         },
         {
           "event_id": "401909900",
@@ -5660,8 +5660,8 @@
           "real_prob": 80.2,
           "ev": 22.59,
           "justification": "Tendencia UNDER validada (227.6 pts proyectados vs linea 237.5, Pace medio 99.6, 64.2% base). Con ajuste de seguridad de +6.5 unidades (Cleveland Cavaliers @ Milwaukee Bucks Under 244.0), las 10,000 simulaciones Monte Carlo proyectan 80.2% de cobertura real.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Cleveland Cavaliers 136 - Milwaukee Bucks 111"
         }
       ]
     },
@@ -5675,7 +5675,7 @@
       "odds_american": 167,
       "odds_decimal": 2.673,
       "status": "EN JUEGO",
-      "score_result": "En proceso (1 ganadas, 1 por iniciar)",
+      "score_result": "En disputa (1 ganadas, 1 en juego)",
       "units_pnl": 0.0,
       "settled_at": null,
       "legs": [
@@ -5695,8 +5695,8 @@
           "real_prob": 77.0,
           "ev": 25.12,
           "justification": "Atacante titular de primera linea y PP1 en Colorado Avalanche promediando 4.8 disparos a puerta y 22:15 TOI por encuentro. Supera la linea de 3.5+ remates ante Calgary Flames en el 77.0% de las simulaciones Poisson de volumen (+25.12% EV).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 10:00 PM EDT"
+          "status": "EN JUEGO",
+          "score_result": "Nathan MacKinnon: 1 Remates en vivo (Linea: 3.5+)"
         },
         {
           "event_id": "401892614",
@@ -5728,10 +5728,10 @@
       "is_parlay": true,
       "odds_american": 334,
       "odds_decimal": 4.338,
-      "status": "EN JUEGO",
-      "score_result": "En proceso (4 ganadas, 1 por iniciar)",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "GANADA",
+      "score_result": "Todas las selecciones cumplidas",
+      "units_pnl": 3.34,
+      "settled_at": "2026-10-31 21:34:54",
       "legs": [
         {
           "event_id": "401892619",
@@ -5796,8 +5796,8 @@
           "decimal_odds": 1.323,
           "real_prob": 83.9,
           "justification": "Colchon defensivo de +8.5 puntos para Memphis Grizzlies en casa (Sabermetria NBA (Four Factors): NetRtg +5.0 vs -3.3, eFG% 53.9%, TS% 57.5%, TOV% 13.8%, Pace 101.2.). En 10,000 simulaciones Monte Carlo cubre la linea en el 83.9% de los partidos.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Sacramento Kings 105 - Memphis Grizzlies 136"
         },
         {
           "event_id": "401882825",
@@ -5867,10 +5867,10 @@
       "is_parlay": true,
       "odds_american": 121,
       "odds_decimal": 2.214,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:56",
       "legs": [
         {
           "event_id": "401909901",
@@ -5888,8 +5888,8 @@
           "real_prob": 78.2,
           "ev": 16.39,
           "justification": "Referente ofensivo #1 de San Antonio Spurs libre de reporte de lesion, promediando 24.1 PTS reales en la temporada 2026. La linea ajustada a 22+ puntos otorga un colchon de +2.1 unidades frente a la defensa de Minnesota Timberwolves, alcanzando 78.2% de probabilidad en simulaciones Monte Carlo (+16.39% EV).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Victor Wembanyama: 43 PTS (Linea: 22+ | Minnesota Timberwolves 111 - San Antonio Spurs 121)"
         },
         {
           "event_id": "401909899",
@@ -5907,8 +5907,8 @@
           "real_prob": 77.9,
           "ev": 15.92,
           "justification": "Referente ofensivo #1 de Sacramento Kings libre de reporte de lesion, promediando 26.0 PTS reales en la temporada 2026. La linea ajustada a 24+ puntos otorga un colchon de +2.0 unidades frente a la defensa de Memphis Grizzlies, alcanzando 77.9% de probabilidad en simulaciones Monte Carlo (+15.92% EV).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Zach LaVine: 11 PTS (Linea: 24+ - Final: Sacramento Kings 105 - Memphis Grizzlies 136)"
         }
       ]
     },
@@ -5921,10 +5921,10 @@
       "is_parlay": true,
       "odds_american": 287,
       "odds_decimal": 3.872,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:56",
       "legs": [
         {
           "event_id": "401909899",
@@ -5939,8 +5939,8 @@
           "decimal_odds": 1.323,
           "real_prob": 83.9,
           "justification": "Colchon defensivo de +8.5 puntos para Memphis Grizzlies en casa (Sabermetria NBA (Four Factors): NetRtg +5.0 vs -3.3, eFG% 53.9%, TS% 57.5%, TOV% 13.8%, Pace 101.2.). En 10,000 simulaciones Monte Carlo cubre la linea en el 83.9% de los partidos.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Sacramento Kings 105 - Memphis Grizzlies 136"
         },
         {
           "event_id": "401909900",
@@ -5955,8 +5955,8 @@
           "decimal_odds": 1.303,
           "real_prob": 82.3,
           "justification": "Filtro de divergencia UNDER superado: ritmo combinado 99.6 y DRtg (115.0 / 111.6) proyectan 227.6 pts (9.9 pts bajo 237.5), cubriendo Under 245.0 en 82.3% de simulaciones.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Cleveland Cavaliers 136 - Milwaukee Bucks 111"
         },
         {
           "event_id": "401909901",
@@ -5971,8 +5971,8 @@
           "decimal_odds": 1.323,
           "real_prob": 78.4,
           "justification": "Colchon defensivo de +8.5 puntos para San Antonio Spurs en casa (Sabermetria NBA (Four Factors): NetRtg +2.8 vs +0.8, eFG% 53.3%, TS% 57.2%, TOV% 13.9%, Pace 100.1.). En 10,000 simulaciones Monte Carlo cubre la linea en el 78.4% de los partidos.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Minnesota Timberwolves 111 - San Antonio Spurs 121"
         },
         {
           "event_id": "401909898",
@@ -5987,8 +5987,8 @@
           "decimal_odds": 1.303,
           "real_prob": 78.0,
           "justification": "Filtro de divergencia UNDER superado: ritmo combinado 100.0 y DRtg (116.2 / 116.9) proyectan 232.7 pts (6.8 pts bajo 239.5), cubriendo Under 247.0 en 78.0% de simulaciones.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:00 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Atlanta Hawks 99 - New Orleans Pelicans 121"
         },
         {
           "event_id": "401909902",
@@ -6003,8 +6003,8 @@
           "decimal_odds": 1.303,
           "real_prob": 77.8,
           "justification": "Filtro de divergencia OVER superado: Pace combinado 100.0 y ORtg (117.6 / 112.2) proyectan 225.4 pts (+6.9 sobre 218.5), cubriendo Over 211.0 en 77.8% de simulaciones.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:30 PM EDT"
+          "status": "GANADA",
+          "score_result": "Final: Oklahoma City Thunder 98 - Houston Rockets 119"
         }
       ]
     },
@@ -6017,10 +6017,10 @@
       "is_parlay": true,
       "odds_american": -107,
       "odds_decimal": 1.938,
-      "status": "EN JUEGO",
-      "score_result": "En disputa (0 ganadas, 1 en juego)",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:56",
       "legs": [
         {
           "event_id": "401909897",
@@ -6036,8 +6036,8 @@
           "real_prob": 71.7,
           "ev": 6.32,
           "justification": "Tendencia OVER validada (220.3 pts proyectados vs linea 216.5, TS% combinado 56.9%, 55.7% base). Con ajuste de seguridad de -6.5 unidades (Philadelphia 210.0ers @ Charlotte Hornets Over 216.5), las 10,000 simulaciones Monte Carlo proyectan 71.7% de cobertura real.",
-          "status": "EN JUEGO",
-          "score_result": "En Juego (2:57 - 2nd Quarter): Philadelphia 76ers 44 - Charlotte Hornets 44"
+          "status": "PERDIDA",
+          "score_result": "Final: Philadelphia 76ers 109 - Charlotte Hornets 104"
         },
         {
           "event_id": "401909900",
@@ -6053,8 +6053,8 @@
           "real_prob": 80.2,
           "ev": 22.59,
           "justification": "Tendencia UNDER validada (227.6 pts proyectados vs linea 237.5, Pace medio 99.6, 64.2% base). Con ajuste de seguridad de +6.5 unidades (Cleveland Cavaliers @ Milwaukee Bucks Under 244.0), las 10,000 simulaciones Monte Carlo proyectan 80.2% de cobertura real.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Cleveland Cavaliers 136 - Milwaukee Bucks 111"
         }
       ]
     },
@@ -6106,10 +6106,10 @@
       "is_parlay": true,
       "odds_american": 340,
       "odds_decimal": 4.397,
-      "status": "EN JUEGO",
-      "score_result": "En proceso (1 ganadas, 2 por iniciar)",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:56",
       "legs": [
         {
           "event_id": "401892623",
@@ -6127,8 +6127,8 @@
           "real_prob": 77.0,
           "ev": 25.12,
           "justification": "Atacante titular de primera linea y PP1 en Colorado Avalanche promediando 4.8 disparos a puerta y 22:15 TOI por encuentro. Supera la linea de 3.5+ remates ante Calgary Flames en el 77.0% de las simulaciones Poisson de volumen (+25.12% EV).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 10:00 PM EDT"
+          "status": "EN JUEGO",
+          "score_result": "Nathan MacKinnon: 1 Remates en vivo (Linea: 3.5+)"
         },
         {
           "event_id": "401892614",
@@ -6165,8 +6165,8 @@
           "real_prob": 75.0,
           "ev": 23.38,
           "justification": "Atacante titular de primera linea y PP1 en Toronto Maple Leafs promediando 4.5 disparos a puerta y 21:00 TOI por encuentro. Supera la linea de 3.5+ remates ante Vancouver Canucks en el 75.0% de las simulaciones Poisson de volumen (+23.38% EV).",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Auston Matthews: 2 Remates (Linea: 3.5+ - Final: Toronto Maple Leafs 4 - Vancouver Canucks 2)"
         }
       ]
     },
@@ -6275,10 +6275,10 @@
       "is_parlay": true,
       "odds_american": -112,
       "odds_decimal": 1.889,
-      "status": "PROXIMAMENTE",
-      "score_result": "Partidos programados",
-      "units_pnl": 0.0,
-      "settled_at": null,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:34:56",
       "legs": [
         {
           "event_id": "401892620",
@@ -6294,8 +6294,8 @@
           "real_prob": 86.2,
           "ev": 4.5,
           "justification": "Duelo defensivo en hielo (Sam Montembeault SV% 0.902 vs Titular Confirmado SV% 0.910). Proyeccion Poisson de 5.77 goles totales cubre Menos de 7.5 en 86.2% de simulaciones.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 7:00 PM EDT"
+          "status": "PERDIDA",
+          "score_result": "Final: Pittsburgh Penguins 4 - Montreal Canadiens 5"
         },
         {
           "event_id": "401892622",
@@ -6311,8 +6311,8 @@
           "real_prob": 84.5,
           "ev": 6.2,
           "justification": "Potencial ofensivo en Power Play y transicion (7.09 goles proyectados), superando 5.5 goles en el 69.4% de simulaciones. Con ajuste de seguridad de -1.5 unidades (Columbus Blue Jackets @ Dallas Stars Mas de 4.0 Goles), las 10,000 simulaciones Monte Carlo proyectan 84.5% de cobertura real.",
-          "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 8:00 PM EDT"
+          "status": "TABLAS",
+          "score_result": "Final: Columbus Blue Jackets 1 - Dallas Stars 3"
         }
       ]
     },
@@ -6580,39 +6580,49 @@
       "date": "2026-11-01",
       "sport": "Tenis",
       "vehicle": "Apuesta Fuerte",
-      "title": "Apuesta Fuerte Tenis: Weronika Falkowska +1.5 Sets (Handicap de Sets - Que Cubra)",
+      "title": "Apuesta Fuerte Tenis: Leylah Fernandez ML",
       "is_parlay": false,
-      "odds_american": -140,
-      "odds_decimal": 1.714,
+      "odds_american": -170,
+      "odds_decimal": 1.588,
       "status": "PROXIMAMENTE",
       "score_result": "Partidos programados",
       "units_pnl": 0.0,
       "settled_at": null,
       "legs": [
         {
-          "event_id": "187330",
-          "kickoff_cst": "02:30 CST",
-          "tournament": "Chennai Open (WTA)",
+          "event_id": "186627",
+          "kickoff_cst": "23:00 CST",
+          "tournament": "Prudential Hong Kong Tennis Open (WTA)",
           "surface": "Hard",
-          "local_date": "2026-11-01",
-          "kalshi_prob": 52.0,
-          "selection": "Weronika Falkowska +1.5 Sets (Handicap de Sets - Que Cubra)",
-          "team": "Weronika Falkowska",
-          "opponent": "Viktoria Morvayova",
-          "sport": "Tenis",
-          "game": "Weronika Falkowska vs Viktoria Morvayova",
-          "market_type": "Handicap de Sets (+1.5)",
-          "american_odds": -140,
-          "decimal_odds": 1.714,
-          "real_prob": 69.5,
-          "ev": 19.14,
-          "consensus": 4,
           "total_models": 4,
-          "sharp_bonus": 2.2,
+          "local_date": "2026-11-01",
+          "consensus": 4,
           "consensus_label": "Consenso 4/4 Modelos",
-          "justification": "[Chennai Open (WTA) - Hard] Valor cuantitativo sobre Weronika Falkowska frente a Viktoria Morvayova (momio ML +126). Se ejecuta cobertura tactica con +1.5 Sets (ganar al menos 1 set), respaldada por 69.5% de frecuencia en 10,000 simulaciones Markov/Monte Carlo (+19.14% EV). Sabermetria Tenis (Hard): Elo Superficie 1858 vs 1872, Hold 71.2%, Break 34.9%, Dominance Ratio 1.03, Tiebreak 52.6%. Kalshi CFTC: 52% (52c).",
+          "model_dispersion": 0.0284,
+          "selection": "Leylah Fernandez ML",
+          "team": "Leylah Fernandez",
+          "opponent": "Sofia Kenin",
+          "sport": "Tenis",
+          "game": "Sofia Kenin vs Leylah Fernandez",
+          "market_type": "Money Line",
+          "american_odds": -170,
+          "decimal_odds": 1.588,
+          "real_prob": 66.2,
+          "ev": 5.08,
+          "sharp_bonus": 1.2,
+          "justification": "[Prudential Hong Kong Tennis Open (WTA) - Hard] Superioridad analitica confirmada (Consenso 4/4 modelos) para Leylah Fernandez frente a Sofia Kenin. Probabilidad real del ensamble en 66.2% contra 63.0% implicito de la casa (+5.08% EV). Sabermetria Tenis (Hard): Elo Superficie 1990 vs 1873, Hold 76.5%, Break 38.0%, Dominance Ratio 1.14, Tiebreak 56.2%. Proyeccion 10,000 sims Monte Carlo: 10.9 - 13.1 Juegos (24.0 Tot.). Consenso Analistas/Foros (Bleacher Nation, Last Word On Sports): 3 analisis activos destacando a Leylah Fernandez.",
+          "slate_size": 57,
+          "slot_rank": 1,
+          "prob_suceda_pct": 66.2,
+          "seguridad_1_10": 8.7,
+          "is_quota_filler": false,
+          "tier_label": "SEGURIDAD ELITE (MAXIMA CONVICCION)",
+          "short_badge": "SEGURIDAD 8.7/10 - ELITE",
+          "origin_tag": "CONVICCION PRIORITARIA DEL MOTOR",
+          "stake_label": "Stake Fuerte: 1.0u - 1.25u",
+          "analisis_motor": "Calificacion 8.7/10 (CONVICCION PRIORITARIA DEL MOTOR): Respaldada por Consenso 4/4 modelos, 66.2% prob. real de ocurrir, ventaja +5.1% EV sin alertas de relleno ni contradiccion sharp.",
           "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sun, November 1st at 3:30 AM EST"
+          "score_result": "Programado: M/d - 'TBD'"
         }
       ]
     },
@@ -6623,52 +6633,541 @@
       "vehicle": "Parlay Ganador",
       "title": "Parlay Ganador Tenis ATP/WTA (<= +100 MAX)",
       "is_parlay": true,
-      "odds_american": -127,
-      "odds_decimal": 1.79,
+      "odds_american": -177,
+      "odds_decimal": 1.566,
       "status": "PROXIMAMENTE",
       "score_result": "Partidos programados",
       "units_pnl": 0.0,
       "settled_at": null,
       "legs": [
         {
-          "event_id": "185735",
-          "kickoff_cst": "02:30 CST",
-          "tournament": "Guangzhou Open (WTA)",
-          "surface": "Hard",
+          "event_id": "186446",
+          "kickoff_cst": "23:00 CST",
+          "tournament": "Rolex Paris Masters (ATP)",
+          "surface": "Indoor Hard",
+          "total_models": 4,
           "local_date": "2026-11-01",
-          "selection": "Lilli Tagger ML",
-          "team": "Lilli Tagger",
-          "opponent": "Harriet Dart",
+          "consensus": 3,
+          "consensus_label": "Consenso 3/4 Modelos",
+          "model_dispersion": 0.0087,
+          "selection": "Arthur Rinderknech +1.5 Sets",
+          "team": "Arthur Rinderknech",
+          "opponent": "Francisco Cerundolo",
           "sport": "Tenis",
-          "game": "Harriet Dart vs Lilli Tagger",
-          "market_type": "Money Line Principal",
-          "american_odds": -231,
-          "decimal_odds": 1.433,
-          "real_prob": 68.1,
-          "ev": -2.46,
-          "justification": "[Guangzhou Open (WTA) - Hard] Ventaja estadistica consistente para Lilli Tagger frente a Harriet Dart en mercado Money Line principal. Respaldado por 68.1% de probabilidad real en el ensamble de 4 modelos y simulaciones Monte Carlo. Sabermetria Tenis (Hard): Elo Superficie 1989 vs 1869, Hold 75.1%, Break 37.9%, Dominance Ratio 1.12, Tiebreak 56.8%. Proyeccion: 11.2 - 13.0 Juegos (24.2 Tot.). Consenso Analistas/Foros (Sportskeeda, Last Word On Sports): 2 analisis activos destacando a Lilli Tagger.",
+          "game": "Francisco Cerundolo vs Arthur Rinderknech",
+          "market_type": "Handicap de Sets Principal",
+          "american_odds": -408,
+          "decimal_odds": 1.245,
+          "real_prob": 78.6,
+          "ev": -2.14,
+          "justification": "[Rolex Paris Masters (ATP) - Indoor Hard] Cobertura de alta eficiencia en mercado principal de sets para Arthur Rinderknech (+1.5 Sets ante Francisco Cerundolo). En 10,000 simulaciones Markov/Monte Carlo conquista al menos un parcial en el 78.6% de los encuentros. Sabermetria Tenis (Indoor Hard): Elo Superficie 1892 vs 1847, Hold 80.7%, Break 23.7%, Dominance Ratio 1.07, Tiebreak 53.7%.",
+          "slate_size": 57,
+          "slot_rank": 1,
+          "prob_suceda_pct": 78.2,
+          "seguridad_1_10": 7.0,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD MODERADA (COMPLEMENTO DE CUOTA)",
+          "short_badge": "SEGURIDAD 7.0/10 - MODERADA",
+          "origin_tag": "COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)",
+          "stake_label": "Stake Reducido: 0.5u",
+          "analisis_motor": "Calificacion 7.0/10 (COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)): Consenso 3/4 modelos, 78.2% prob. real de ocurrir, colchon de cobertura activo, pero penalizada por menor margen sobre el vig de la casa. Usar stake reducido o priorizar la seleccion #1.",
           "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sun, November 1st at 3:30 AM EST"
+          "score_result": "Programado: M/d - 'TBD'"
         },
         {
-          "event_id": "187318",
-          "kickoff_cst": "20:00 CST",
-          "tournament": "Prudential Hong Kong Tennis Open (WTA)",
+          "event_id": "186669",
+          "kickoff_cst": "23:00 CST",
+          "tournament": "Angola Ladies Open (WTA)",
           "surface": "Hard",
-          "local_date": "2026-10-31",
-          "selection": "Carol Young Suh Lee +1.5 Sets",
-          "team": "Carol Young Suh Lee",
-          "opponent": "Aliaksandra Sasnovich",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 1,
+          "consensus_label": "Consenso 1/4 Modelos",
+          "model_dispersion": 0.0242,
+          "selection": "Anna Blinkova ML",
+          "team": "Anna Blinkova",
+          "opponent": "Farah Heddar",
           "sport": "Tenis",
-          "game": "Carol Young Suh Lee vs Aliaksandra Sasnovich",
-          "market_type": "Handicap de Sets Principal",
-          "american_odds": -401,
-          "decimal_odds": 1.249,
-          "real_prob": 78.3,
-          "ev": -2.17,
-          "justification": "[Prudential Hong Kong Tennis Open (WTA) - Hard] Cobertura de alta eficiencia en mercado principal de sets para Carol Young Suh Lee (+1.5 Sets ante Aliaksandra Sasnovich). En 10,000 simulaciones Markov/Monte Carlo conquista al menos un parcial en el 78.3% de los encuentros. Sabermetria Tenis (Hard): Elo Superficie 1884 vs 1854, Hold 72.0%, Break 35.5%, Dominance Ratio 1.05, Tiebreak 53.5%. Kalshi CFTC: 31% (31c).",
+          "game": "Farah Heddar vs Anna Blinkova",
+          "market_type": "Money Line Principal",
+          "american_odds": -387,
+          "decimal_odds": 1.258,
+          "real_prob": 77.8,
+          "ev": -2.15,
+          "justification": "[Angola Ladies Open (WTA) - Hard] Ventaja estadistica consistente para Anna Blinkova frente a Farah Heddar en mercado Money Line principal. Respaldado por 77.8% de probabilidad real en el ensamble de 4 modelos y simulaciones Monte Carlo. Sabermetria Tenis (Hard): Elo Superficie 2026 vs 1812, Hold 76.2%, Break 38.7%, Dominance Ratio 1.14, Tiebreak 58.0%. Proyeccion: 10.4 - 13.1 Juegos (23.5 Tot.).",
+          "slate_size": 57,
+          "slot_rank": 1,
+          "prob_suceda_pct": 76.0,
+          "seguridad_1_10": 6.7,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD MODERADA (COMPLEMENTO DE CUOTA)",
+          "short_badge": "SEGURIDAD 6.7/10 - MODERADA",
+          "origin_tag": "COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)",
+          "stake_label": "Stake Reducido: 0.5u",
+          "analisis_motor": "Calificacion 6.7/10 (COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)): Consenso 1/4 modelos, 76.0% prob. real de ocurrir, pero penalizada por menor margen sobre el vig de la casa. Usar stake reducido o priorizar la seleccion #1.",
           "status": "PROXIMAMENTE",
-          "score_result": "Programado: Sat, October 31st at 10:00 PM EDT"
+          "score_result": "Programado: M/d - 'TBD'"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-31_mlb_apuesta_fuerte",
+      "date": "2026-10-31",
+      "sport": "MLB",
+      "vehicle": "Apuesta Fuerte",
+      "title": "Apuesta Fuerte Beisbol: Milwaukee Brewers +1.5 Carreras (Que Cubra)",
+      "is_parlay": false,
+      "odds_american": -160,
+      "odds_decimal": 1.625,
+      "status": "PROXIMAMENTE",
+      "score_result": "Partidos programados",
+      "units_pnl": 0.0,
+      "settled_at": null,
+      "legs": [
+        {
+          "event_id": "401908046",
+          "league_name": "Major League Baseball",
+          "total_models": 4,
+          "local_date": "2026-10-31",
+          "consensus": 4,
+          "consensus_label": "Consenso 4/4 Modelos",
+          "model_dispersion": 0.0083,
+          "selection": "Milwaukee Brewers +1.5 Carreras (Que Cubra)",
+          "team": "Milwaukee Brewers",
+          "opponent": "Tampa Bay Rays",
+          "sport": "MLB",
+          "game": "Milwaukee Brewers vs Tampa Bay Rays",
+          "market_type": "Line +1.5 (Que Cubra)",
+          "american_odds": -160,
+          "decimal_odds": 1.625,
+          "real_prob": 72.4,
+          "ev": 17.65,
+          "sharp_bonus": 0.0,
+          "justification": "[Major League Baseball] Valor estadistico en Milwaukee Brewers (+115 ML). Con proteccion +1.5 carreras ('Que Cubra') ante Tampa Bay Rays, alcanza 72.4% de probabilidad real (+17.65% EV). Sabermetria MLB: FIP 3.12, wRC+ ofensivo 108, bullpen ERA 2.85.",
+          "slate_size": 7,
+          "slot_rank": 1,
+          "prob_suceda_pct": 72.4,
+          "seguridad_1_10": 9.7,
+          "is_quota_filler": false,
+          "tier_label": "SEGURIDAD ELITE (MAXIMA CONVICCION)",
+          "short_badge": "SEGURIDAD 9.7/10 - ELITE",
+          "origin_tag": "CONVICCION PRIORITARIA DEL MOTOR",
+          "stake_label": "Stake Fuerte: 1.0u - 1.25u",
+          "analisis_motor": "Calificacion 9.7/10 (CONVICCION PRIORITARIA DEL MOTOR): Respaldada por Consenso 4/4 modelos, 72.4% prob. real de ocurrir, ventaja +17.6% EV, colchon de cobertura activo sin alertas de relleno ni contradiccion sharp.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado (2026-10-31)"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-31_mlb_apuesta_fuerte_#2",
+      "date": "2026-10-31",
+      "sport": "MLB",
+      "vehicle": "Apuesta Fuerte #2",
+      "title": "Apuesta Fuerte #2 Beisbol: Caneros de los Mochis +1.5 Carreras (Que Cubra)",
+      "is_parlay": false,
+      "odds_american": -160,
+      "odds_decimal": 1.625,
+      "status": "PERDIDA",
+      "score_result": "1 o mas selecciones no cumplidas",
+      "units_pnl": -1.0,
+      "settled_at": "2026-10-31 21:36:23",
+      "legs": [
+        {
+          "event_id": "lmp_850491",
+          "kickoff_cst": "18:00 CST",
+          "league_name": "Liga ARCO Mexicana del Pacifico",
+          "total_models": 4,
+          "local_date": "2026-10-31",
+          "consensus": 4,
+          "consensus_label": "Consenso 4/4 Modelos",
+          "model_dispersion": 0.0058,
+          "selection": "Caneros de los Mochis +1.5 Carreras (Que Cubra)",
+          "team": "Caneros de los Mochis",
+          "opponent": "Naranjeros de Hermosillo",
+          "sport": "MLB",
+          "game": "Naranjeros de Hermosillo vs Caneros de los Mochis",
+          "market_type": "Line +1.5 (Que Cubra)",
+          "american_odds": -160,
+          "decimal_odds": 1.625,
+          "real_prob": 68.4,
+          "ev": 11.15,
+          "sharp_bonus": 0.0,
+          "justification": "[Liga ARCO Mexicana del Pacifico] Divergencia positiva en Caneros de los Mochis (+125 ML). Se asegura margen de cobertura con +1.5 carreras ante Naranjeros de Hermosillo, alcanzando 68.4% de probabilidad real (+11.15% EV). Sabermetria LMP: FIP 3.28, wRC+ ofensivo 108, bullpen ERA 3.15.",
+          "slate_size": 7,
+          "slot_rank": 2,
+          "prob_suceda_pct": 68.4,
+          "seguridad_1_10": 9.5,
+          "is_quota_filler": false,
+          "tier_label": "SEGURIDAD ELITE (MAXIMA CONVICCION)",
+          "short_badge": "SEGURIDAD 9.5/10 - ELITE",
+          "origin_tag": "CONVICCION PRIORITARIA DEL MOTOR",
+          "stake_label": "Stake Fuerte: 1.0u - 1.25u",
+          "analisis_motor": "Calificacion 9.5/10 (CONVICCION PRIORITARIA DEL MOTOR): Respaldada por Consenso 4/4 modelos, 68.4% prob. real de ocurrir, ventaja +11.2% EV, colchon de cobertura activo sin alertas de relleno ni contradiccion sharp.",
+          "status": "PERDIDA",
+          "score_result": "Final: Naranjeros de Hermosillo 7 - Caneros de los Mochis 4"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01_nfl_parlay_ganador_temprano_#1",
+      "date": "2026-11-01",
+      "sport": "NFL",
+      "vehicle": "Parlay Ganador Temprano #1",
+      "title": "Parlay Ganador #1 NFL (Temprano | <= +100 MAX)",
+      "is_parlay": true,
+      "odds_american": -170,
+      "odds_decimal": 1.588,
+      "status": "PROXIMAMENTE",
+      "score_result": "Partidos programados",
+      "units_pnl": 0.0,
+      "settled_at": null,
+      "legs": [
+        {
+          "event_id": "401873024",
+          "horario": "Temprano",
+          "kickoff_cst": "12:00 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 1,
+          "consensus_label": "Consenso 1/4 Modelos",
+          "model_dispersion": 0.0418,
+          "sharp_money_pct": 48,
+          "tickets_pct": 47,
+          "selection": "Dallas Cowboys ML",
+          "team": "Dallas Cowboys",
+          "opponent": "Arizona Cardinals",
+          "sport": "NFL",
+          "game": "Arizona Cardinals @ Dallas Cowboys",
+          "market_type": "Money Line Principal",
+          "american_odds": -310,
+          "decimal_odds": 1.323,
+          "real_prob": 71.7,
+          "ev": -5.2,
+          "justification": "[Horario Temprano - 12:00 CST] Solidez cuantitativa de Dallas Cowboys ante Arizona Cardinals en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 71.7% de probabilidad real de victoria. Sabermetria NFL [Temprano - 12:00 CST]: EPA/jugada Off +0.03, DVOA +2.1%, RedZone TD 57.3%. Proyeccion: 21.6 - 29.6.",
+          "slate_size": 13,
+          "slot_rank": 1,
+          "prob_suceda_pct": 70.3,
+          "seguridad_1_10": 5.7,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD BAJA (ALTA VARIANZA / OPCIONAL)",
+          "short_badge": "SEGURIDAD 5.7/10 - RIESGO ALTO",
+          "origin_tag": "RELLENO FORZADO POR CUOTA / ALTO RIESGO",
+          "stake_label": "Stake Minimo Recreativo: 0.25u (u Omitir)",
+          "analisis_motor": "Calificacion 5.7/10 (RELLENO FORZADO POR CUOTA / ALTO RIESGO): Consenso 1/4 modelos, 70.3% prob. real de ocurrir, pero penalizada por menor margen sobre el vig de la casa. Usar stake reducido o priorizar la seleccion #1.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 1:00 PM EST"
+        },
+        {
+          "event_id": "401873028",
+          "horario": "Temprano",
+          "kickoff_cst": "12:00 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 1,
+          "consensus_label": "Consenso 1/4 Modelos",
+          "model_dispersion": 0.0577,
+          "sharp_money_pct": 66,
+          "tickets_pct": 59,
+          "selection": "Jacksonville Jaguars ML",
+          "team": "Jacksonville Jaguars",
+          "opponent": "Indianapolis Colts",
+          "sport": "NFL",
+          "game": "Indianapolis Colts @ Jacksonville Jaguars",
+          "market_type": "Money Line Principal",
+          "american_odds": -500,
+          "decimal_odds": 1.2,
+          "real_prob": 79.3,
+          "ev": -4.83,
+          "justification": "[Horario Temprano - 12:00 CST] Solidez cuantitativa de Jacksonville Jaguars ante Indianapolis Colts en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 79.3% de probabilidad real de victoria. Sabermetria NFL [Temprano - 12:00 CST]: EPA/jugada Off +0.08, DVOA +8.6%, RedZone TD 60.1%. Proyeccion: 19.0 - 30.4. Respaldo Institucional: 66% Dinero (59% Tickets). Consenso Analistas/Foros (CBS Sports): 1 analisis activos destacando a Jacksonville Jaguars.",
+          "slate_size": 13,
+          "slot_rank": 1,
+          "prob_suceda_pct": 77.4,
+          "seguridad_1_10": 5.9,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD MODERADA (COMPLEMENTO DE CUOTA)",
+          "short_badge": "SEGURIDAD 5.9/10 - MODERADA",
+          "origin_tag": "COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)",
+          "stake_label": "Stake Reducido: 0.5u",
+          "analisis_motor": "Calificacion 5.9/10 (COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)): Consenso 1/4 modelos, 77.4% prob. real de ocurrir, flujo profesional (66% $), pero penalizada por momio muy castigado por comision (-500). Usar stake reducido o priorizar la seleccion #1.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 1:00 PM EST"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01_nfl_parlay_ganador_temprano_#2",
+      "date": "2026-11-01",
+      "sport": "NFL",
+      "vehicle": "Parlay Ganador Temprano #2",
+      "title": "Parlay Ganador #2 NFL (Temprano | <= +100 MAX)",
+      "is_parlay": true,
+      "odds_american": -135,
+      "odds_decimal": 1.739,
+      "status": "PROXIMAMENTE",
+      "score_result": "Partidos programados",
+      "units_pnl": 0.0,
+      "settled_at": null,
+      "legs": [
+        {
+          "event_id": "401873031",
+          "horario": "Temprano",
+          "kickoff_cst": "12:00 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 2,
+          "consensus_label": "Consenso 2/4 Modelos",
+          "model_dispersion": 0.0623,
+          "sharp_money_pct": 77,
+          "tickets_pct": 68,
+          "selection": "Cincinnati Bengals ML",
+          "team": "Cincinnati Bengals",
+          "opponent": "Tennessee Titans",
+          "sport": "NFL",
+          "game": "Tennessee Titans @ Cincinnati Bengals",
+          "market_type": "Money Line Principal",
+          "american_odds": -700,
+          "decimal_odds": 1.143,
+          "real_prob": 83.4,
+          "ev": -4.65,
+          "justification": "[Horario Temprano - 12:00 CST] Solidez cuantitativa de Cincinnati Bengals ante Tennessee Titans en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 83.4% de probabilidad real de victoria. Sabermetria NFL [Temprano - 12:00 CST]: EPA/jugada Off +0.08, DVOA +9.9%, RedZone TD 60.6%. Proyeccion: 17.9 - 31.7. Respaldo Institucional: 77% Dinero (68% Tickets). Consenso Analistas/Foros (CBS Sports): 1 analisis activos destacando a Cincinnati Bengals.",
+          "slate_size": 13,
+          "slot_rank": 2,
+          "prob_suceda_pct": 81.2,
+          "seguridad_1_10": 5.4,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD BAJA (ALTA VARIANZA / OPCIONAL)",
+          "short_badge": "SEGURIDAD 5.4/10 - RIESGO ALTO",
+          "origin_tag": "RELLENO FORZADO POR CUOTA / ALTO RIESGO",
+          "stake_label": "Stake Minimo Recreativo: 0.25u (u Omitir)",
+          "analisis_motor": "Calificacion 5.4/10 (RELLENO FORZADO POR CUOTA / ALTO RIESGO): Consenso 2/4 modelos, 81.2% prob. real de ocurrir, flujo profesional (77% $), pero penalizada por margen +EV reducido frente a la opcion #1, momio muy castigado por comision (-700). Usar stake reducido o priorizar la seleccion #1.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 1:00 PM EST"
+        },
+        {
+          "event_id": "401873027",
+          "horario": "Temprano",
+          "kickoff_cst": "12:00 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 2,
+          "consensus_label": "Consenso 2/4 Modelos",
+          "model_dispersion": 0.0187,
+          "sharp_money_pct": 53,
+          "tickets_pct": 50,
+          "selection": "Pittsburgh Steelers ML",
+          "team": "Pittsburgh Steelers",
+          "opponent": "Cleveland Browns",
+          "sport": "NFL",
+          "game": "Cleveland Browns @ Pittsburgh Steelers",
+          "market_type": "Money Line Principal",
+          "american_odds": -192,
+          "decimal_odds": 1.521,
+          "real_prob": 62.9,
+          "ev": -4.29,
+          "justification": "[Horario Temprano - 12:00 CST] Solidez cuantitativa de Pittsburgh Steelers ante Cleveland Browns en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 62.9% de probabilidad real de victoria. Sabermetria NFL [Temprano - 12:00 CST]: EPA/jugada Off +0.06, DVOA +6.3%, RedZone TD 59.1%. Proyeccion: 21.4 - 26.1. Consenso Analistas/Foros (CBS Sports, Argus Leader): 4 analisis activos destacando a Pittsburgh Steelers.",
+          "slate_size": 13,
+          "slot_rank": 2,
+          "prob_suceda_pct": 62.1,
+          "seguridad_1_10": 4.7,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD BAJA (ALTA VARIANZA / OPCIONAL)",
+          "short_badge": "SEGURIDAD 4.7/10 - RIESGO ALTO",
+          "origin_tag": "RELLENO FORZADO POR CUOTA / ALTO RIESGO",
+          "stake_label": "Stake Minimo Recreativo: 0.25u (u Omitir)",
+          "analisis_motor": "Calificacion 4.7/10 (RELLENO FORZADO POR CUOTA / ALTO RIESGO): Consenso 2/4 modelos, 62.1% prob. real de ocurrir, pero penalizada por margen +EV reducido frente a la opcion #1. Usar stake reducido o priorizar la seleccion #1.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 1:00 PM EST"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01_nfl_apuesta_fuerte_tarde_y_noche_#1",
+      "date": "2026-11-01",
+      "sport": "NFL",
+      "vehicle": "Apuesta Fuerte Tarde y Noche #1",
+      "title": "Apuesta Fuerte #1 NFL (Tarde y Noche): New England Patriots -7.0 (Spread Principal)",
+      "is_parlay": false,
+      "odds_american": -110,
+      "odds_decimal": 1.909,
+      "status": "PROXIMAMENTE",
+      "score_result": "Partidos programados",
+      "units_pnl": 0.0,
+      "settled_at": null,
+      "legs": [
+        {
+          "event_id": "401873034",
+          "horario": "Tarde y Noche",
+          "kickoff_cst": "15:25 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 3,
+          "consensus_label": "Consenso 3/4 Modelos",
+          "model_dispersion": 0.0742,
+          "sharp_money_pct": 77,
+          "tickets_pct": 76,
+          "selection": "New England Patriots -7.0 (Spread Principal)",
+          "team": "New England Patriots",
+          "opponent": "Miami Dolphins",
+          "sport": "NFL",
+          "game": "New England Patriots @ Miami Dolphins",
+          "market_type": "Spread Principal",
+          "american_odds": -110,
+          "decimal_odds": 1.909,
+          "real_prob": 57.4,
+          "ev": 9.58,
+          "sharp_bonus": 1.5,
+          "justification": "[Horario Tarde y Noche - 15:25 CST] Superioridad en trincheras y eficiencia por jugada de New England Patriots para cubrir el spread principal de -7.0 en visita ante Miami Dolphins. Cubre la linea en el 57.4% de 10,000 simulaciones Monte Carlo calibradas (+9.58% EV sobre momio estandar -110). Sabermetria NFL [Tarde y Noche - 15:25 CST]: EPA/jugada Off +0.05, DVOA +5.1%, RedZone TD 58.6%. Marcador medio simulado: 26.8 - 22.0. Respaldo Institucional: 77% Dinero (76% Tickets).",
+          "slate_size": 13,
+          "slot_rank": 1,
+          "prob_suceda_pct": 57.0,
+          "seguridad_1_10": 7.7,
+          "is_quota_filler": false,
+          "tier_label": "SEGURIDAD ALTA (VENTAJA SOLIDA)",
+          "short_badge": "SEGURIDAD 7.7/10 - ALTA",
+          "origin_tag": "SELECCION VERIFICADA POR MODELOS",
+          "stake_label": "Stake Estandar: 1.0u",
+          "analisis_motor": "Calificacion 7.7/10 (SELECCION VERIFICADA POR MODELOS): Respaldada por Consenso 3/4 modelos, 57.0% prob. real de ocurrir, ventaja +9.6% EV, flujo profesional (77% $) sin alertas de relleno ni contradiccion sharp.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 4:25 PM EST"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01_nfl_apuesta_fuerte_tarde_y_noche_#2",
+      "date": "2026-11-01",
+      "sport": "NFL",
+      "vehicle": "Apuesta Fuerte Tarde y Noche #2",
+      "title": "Apuesta Fuerte #2 NFL (Tarde y Noche): Los Angeles Rams -6.5 (Spread Principal)",
+      "is_parlay": false,
+      "odds_american": -110,
+      "odds_decimal": 1.909,
+      "status": "PROXIMAMENTE",
+      "score_result": "Partidos programados",
+      "units_pnl": 0.0,
+      "settled_at": null,
+      "legs": [
+        {
+          "event_id": "401873032",
+          "horario": "Tarde y Noche",
+          "kickoff_cst": "15:05 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 3,
+          "consensus_label": "Consenso 3/4 Modelos",
+          "model_dispersion": 0.0573,
+          "sharp_money_pct": 62,
+          "tickets_pct": 71,
+          "selection": "Los Angeles Rams -6.5 (Spread Principal)",
+          "team": "Los Angeles Rams",
+          "opponent": "Los Angeles Chargers",
+          "sport": "NFL",
+          "game": "Los Angeles Chargers @ Los Angeles Rams",
+          "market_type": "Spread Principal",
+          "american_odds": -110,
+          "decimal_odds": 1.909,
+          "real_prob": 54.5,
+          "ev": 4.05,
+          "sharp_bonus": 2.7,
+          "justification": "[Horario Tarde y Noche - 15:05 CST] Dominio estructural de Los Angeles Rams cubriendo la linea principal de -6.5 puntos ante Los Angeles Chargers. En 10,000 simulaciones Monte Carlo calibradas supera el handicap en el 54.5% de los escenarios (+4.05% EV sobre momio -110, evitando pagar jugo excesivo en ML). Sabermetria NFL [Tarde y Noche - 15:05 CST]: EPA/jugada Off +0.03, DVOA +1.8%, RedZone TD 57.2%. Marcador medio simulado: 20.1 - 28.7. Respaldo Institucional: 62% Dinero (71% Tickets). Consenso Analistas/Foros (CBS Sports): 2 analisis activos destacando a Los Angeles Rams.",
+          "slate_size": 13,
+          "slot_rank": 2,
+          "prob_suceda_pct": 54.4,
+          "seguridad_1_10": 7.2,
+          "is_quota_filler": false,
+          "tier_label": "SEGURIDAD ALTA (VENTAJA SOLIDA)",
+          "short_badge": "SEGURIDAD 7.2/10 - ALTA",
+          "origin_tag": "SELECCION VERIFICADA POR MODELOS",
+          "stake_label": "Stake Estandar: 1.0u",
+          "analisis_motor": "Calificacion 7.2/10 (SELECCION VERIFICADA POR MODELOS): Respaldada por Consenso 3/4 modelos, 54.4% prob. real de ocurrir, ventaja +4.0% EV, flujo profesional (62% $) sin alertas de relleno ni contradiccion sharp.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 4:05 PM EST"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01_nfl_parlay_ganador_tarde_y_noche_#1",
+      "date": "2026-11-01",
+      "sport": "NFL",
+      "vehicle": "Parlay Ganador Tarde y Noche #1",
+      "title": "Parlay Ganador #1 NFL (Tarde y Noche | <= +100 MAX)",
+      "is_parlay": true,
+      "odds_american": -120,
+      "odds_decimal": 1.836,
+      "status": "PROXIMAMENTE",
+      "score_result": "Partidos programados",
+      "units_pnl": 0.0,
+      "settled_at": null,
+      "legs": [
+        {
+          "event_id": "401873034",
+          "horario": "Tarde y Noche",
+          "kickoff_cst": "15:25 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 3,
+          "consensus_label": "Consenso 3/4 Modelos",
+          "model_dispersion": 0.0742,
+          "sharp_money_pct": 77,
+          "tickets_pct": 76,
+          "selection": "New England Patriots ML",
+          "team": "New England Patriots",
+          "opponent": "Miami Dolphins",
+          "sport": "NFL",
+          "game": "New England Patriots @ Miami Dolphins",
+          "market_type": "Money Line Principal",
+          "american_odds": -310,
+          "decimal_odds": 1.323,
+          "real_prob": 68.2,
+          "ev": -9.84,
+          "justification": "[Horario Tarde y Noche - 15:25 CST] Ventaja estadistica consistente para New England Patriots frente a Miami Dolphins en mercado Money Line principal. Respaldado por 68.2% de probabilidad real en el ensamble de 4 modelos y simulaciones Monte Carlo. Sabermetria NFL [Tarde y Noche - 15:25 CST]: EPA/jugada Off +0.05, DVOA +5.1%, RedZone TD 58.6%. Proyeccion: 26.8 - 22.0. Respaldo Institucional: 77% Dinero (76% Tickets).",
+          "slate_size": 13,
+          "slot_rank": 1,
+          "prob_suceda_pct": 67.2,
+          "seguridad_1_10": 6.9,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD MODERADA (COMPLEMENTO DE CUOTA)",
+          "short_badge": "SEGURIDAD 6.9/10 - MODERADA",
+          "origin_tag": "COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)",
+          "stake_label": "Stake Reducido: 0.5u",
+          "analisis_motor": "Calificacion 6.9/10 (COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)): Consenso 3/4 modelos, 67.2% prob. real de ocurrir, flujo profesional (77% $), pero penalizada por menor margen sobre el vig de la casa. Usar stake reducido o priorizar la seleccion #1.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 4:25 PM EST"
+        },
+        {
+          "event_id": "401873035",
+          "horario": "Tarde y Noche",
+          "kickoff_cst": "19:20 CST",
+          "total_models": 4,
+          "local_date": "2026-11-01",
+          "consensus": 3,
+          "consensus_label": "Consenso 3/4 Modelos",
+          "model_dispersion": 0.0774,
+          "sharp_money_pct": 62,
+          "tickets_pct": 52,
+          "selection": "Washington Commanders ML",
+          "team": "Washington Commanders",
+          "opponent": "Philadelphia Eagles",
+          "sport": "NFL",
+          "game": "Philadelphia Eagles @ Washington Commanders",
+          "market_type": "Money Line Principal",
+          "american_odds": -258,
+          "decimal_odds": 1.388,
+          "real_prob": 63.0,
+          "ev": -12.51,
+          "justification": "[Horario Tarde y Noche - 19:20 CST] Solidez cuantitativa de Washington Commanders ante Philadelphia Eagles en linea principal abierta. El ensamble de 4 modelos y 10,000 simulaciones Monte Carlo proyectan 63.0% de probabilidad real de victoria. Sabermetria NFL [Tarde y Noche - 19:20 CST]: EPA/jugada Off +0.10, DVOA +19.8%, RedZone TD 61.5%. Proyeccion: 22.0 - 26.7. Flujo Sharp: 62% Dinero vs 52% Tickets (+10% divergencia). Consenso Analistas/Foros (Lineups): 2 analisis activos destacando a Washington Commanders.",
+          "slate_size": 13,
+          "slot_rank": 1,
+          "prob_suceda_pct": 62.3,
+          "seguridad_1_10": 6.4,
+          "is_quota_filler": true,
+          "tier_label": "SEGURIDAD MODERADA (COMPLEMENTO DE CUOTA)",
+          "short_badge": "SEGURIDAD 6.4/10 - MODERADA",
+          "origin_tag": "COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)",
+          "stake_label": "Stake Reducido: 0.5u",
+          "analisis_motor": "Calificacion 6.4/10 (COMPLEMENTO DE CUOTA (CARTELERA CORTA / VIG)): Consenso 3/4 modelos, 62.3% prob. real de ocurrir, dinero sharp (62% $), pero penalizada por menor margen sobre el vig de la casa. Usar stake reducido o priorizar la seleccion #1.",
+          "status": "PROXIMAMENTE",
+          "score_result": "Programado: Sun, November 1st at 8:20 PM EST"
         }
       ]
     }

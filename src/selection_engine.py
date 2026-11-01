@@ -346,17 +346,18 @@ class SelectionEngine:
                         f"{saber_h + ' ' if saber_h else ''}{f'xG proyectado: {proj_score}.' if proj_score else ''}{intel_h}"
                     ).strip()
                 elif sport == "Tenis":
-                    set_cov_raw = float(g.get("home_plus_1_5_sets_prob", 0.0) or 0.0)
-                    raw_set_pct = round(set_cov_raw * 100.0, 1) if set_cov_raw <= 1.0 else round(set_cov_raw, 1)
-                    cov_prob = min(71.5, max(56.0, round(0.72 * raw_set_pct + 0.28 * 58.0, 1))) if raw_set_pct > 0 else min(69.5, round(h_real + 21.0, 1))
-                    odds_cov = -140
-                    cov_ev = round(((cov_prob / 100.0) * american_to_decimal(odds_cov) - 1.0) * 100.0, 2)
-                    sel_cov = f"{h_team} +1.5 Sets (Handicap de Sets - Que Cubra)"
-                    mtype_cov = "Handicap de Sets (+1.5)"
+                    # In sportsbooks (Playdoit, Caliente), +1.5 Sets on underdogs is frequently unavailable or books only offer -1.5 Sets on the favorite.
+                    # Guarantee 100% sportsbook market availability by selecting Victoria Directa (Money Line) as primary vehicle.
+                    cov_prob = round(h_real, 1)
+                    odds_cov = h_odds
+                    cov_ev = h_ev
+                    sel_cov = f"{h_team} ML (Victoria Directa)"
+                    mtype_cov = "Money Line (Victoria Directa)"
                     just_cov = (
-                        f"{ctx_prefix}Valor cuantitativo sobre {h_team} frente a {a_team} (momio ML {h_odds:+d}). "
-                        f"Se ejecuta cobertura tactica con +1.5 Sets (ganar al menos 1 set), respaldada por {cov_prob}% de frecuencia "
-                        f"en 10,000 simulaciones Markov/Monte Carlo (+{cov_ev}% EV). {saber_h}{intel_h}"
+                        f"{ctx_prefix}Ventaja cuantitativa y retorno favorable para {h_team} frente a {a_team} (momio {h_odds:+d} ML). "
+                        f"Mercado 100% disponible en Caliente/Playdoit: Ganador del Partido (Victoria Directa). "
+                        f"En 10,000 simulaciones Markov/Monte Carlo alcanza {cov_prob}% de probabilidad real (+{cov_ev}% EV). "
+                        f"{saber_h}{intel_h}"
                     ).strip()
                 else:
                     unit_lbl = "Carreras" if sport == "MLB" else "Goles"
@@ -490,17 +491,18 @@ class SelectionEngine:
                         f"{saber_a + ' ' if saber_a else ''}{f'xG proyectado: {proj_score}.' if proj_score else ''}{intel_a}"
                     ).strip()
                 elif sport == "Tenis":
-                    set_cov_raw = float(g.get("away_plus_1_5_sets_prob", 0.0) or 0.0)
-                    raw_set_pct = round(set_cov_raw * 100.0, 1) if set_cov_raw <= 1.0 else round(set_cov_raw, 1)
-                    cov_prob = min(71.5, max(56.0, round(0.72 * raw_set_pct + 0.28 * 58.0, 1))) if raw_set_pct > 0 else min(69.5, round(a_real + 21.0, 1))
-                    odds_cov = -140
-                    cov_ev = round(((cov_prob / 100.0) * american_to_decimal(odds_cov) - 1.0) * 100.0, 2)
-                    sel_cov = f"{a_team} +1.5 Sets (Handicap de Sets - Que Cubra)"
-                    mtype_cov = "Handicap de Sets (+1.5)"
+                    # In sportsbooks (Playdoit, Caliente), +1.5 Sets on underdogs is frequently unavailable or books only offer -1.5 Sets on the favorite.
+                    # Guarantee 100% sportsbook market availability by selecting Victoria Directa (Money Line) as primary vehicle.
+                    cov_prob = round(a_real, 1)
+                    odds_cov = a_odds
+                    cov_ev = a_ev
+                    sel_cov = f"{a_team} ML (Victoria Directa)"
+                    mtype_cov = "Money Line (Victoria Directa)"
                     just_cov = (
-                        f"{ctx_prefix}Ventaja de superficie y retorno para {a_team} ante {h_team} (momio ML {a_odds:+d}). "
-                        f"Se protege con Handicap de +1.5 Sets (ganar al menos 1 set), logrando {cov_prob}% de exito "
-                        f"en 10,000 simulaciones Markov/Monte Carlo (+{cov_ev}% EV). {saber_a}{intel_a}"
+                        f"{ctx_prefix}Ventaja estructural y retorno favorable para {a_team} ante {h_team} (momio {a_odds:+d} ML). "
+                        f"Mercado 100% disponible en Caliente/Playdoit: Ganador del Partido (Victoria Directa). "
+                        f"En 10,000 simulaciones Markov/Monte Carlo alcanza {cov_prob}% de probabilidad real (+{cov_ev}% EV). "
+                        f"{saber_a}{intel_a}"
                     ).strip()
                 else:
                     unit_lbl = "Carreras" if sport == "MLB" else "Goles"
@@ -662,7 +664,7 @@ class SelectionEngine:
         valid_props = []
         for prop in star_props_pool:
             sp = (prop.get("sport") or "").upper()
-            if sp in ("NCAAF", "TENIS"):
+            if sp in ("NCAAF", "TENIS", "FUTBOL"):
                 continue
             sel = prop.get("selection", "")
             if self.is_selection_used(sel):

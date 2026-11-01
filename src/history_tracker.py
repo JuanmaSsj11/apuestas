@@ -389,6 +389,7 @@ class HistoryTracker:
             tasks.append(("team", "NBA", "nba", d_ymd, f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={d_ymd}"))
             tasks.append(("team", "NHL", "nhl", d_ymd, f"https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates={d_ymd}"))
             tasks.append(("team", "MLB", "mlb", d_ymd, f"https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates={d_ymd}"))
+            tasks.append(("lmp", "MLB", "lmp", d_ymd, f"https://statsapi.mlb.com/api/v1/schedule?sportId=17&leagueId=132&date={d_ymd[:4]}-{d_ymd[4:6]}-{d_ymd[6:]}&hydrate=team,linescore"))
             tasks.append(("team", "NFL", "nfl", d_ymd, f"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates={d_ymd}"))
             tasks.append(("team", "NCAAF", "college-football", d_ymd, f"https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates={d_ymd}&groups=80&limit=100"))
             for lg in SOCCER_SLUGS:
@@ -447,6 +448,40 @@ class HistoryTracker:
                             "score_str": score_str,
                             "winner": h_name if h_score > a_score else (a_name if a_score > h_score else "tie")
                         }))
+                elif kind == "lmp":
+                    for d_obj in payload.get("dates", []):
+                        for g in d_obj.get("games", []):
+                            g_pk = str(g.get("gamePk", ""))
+                            t_away = g.get("teams", {}).get("away", {}).get("team", {}).get("name", "")
+                            t_home = g.get("teams", {}).get("home", {}).get("team", {}).get("name", "")
+                            if not t_home or not t_away:
+                                continue
+                            det_state = g.get("status", {}).get("detailedState", "Scheduled")
+                            completed = det_state in ("Final", "Game Over")
+                            state = "post" if completed else ("in" if det_state in ("In Progress",) else "pre")
+                            raw_dt = g.get("gameDate", "")
+                            g_date = _iso_to_cst_date(raw_dt, d_ymd)
+                            h_score = int(float(g.get("teams", {}).get("home", {}).get("score") or 0))
+                            a_score = int(float(g.get("teams", {}).get("away", {}).get("score") or 0))
+                            score_str = f"{t_away} {a_score} - {t_home} {h_score}"
+                            g_key = f"mlb:{g_date}:{g_pk}".lower()
+                            out.append((g_key, {
+                                "event_id": g_pk,
+                                "sport": "MLB",
+                                "league_slug": "lmp",
+                                "game_date": g_date,
+                                "query_ymd": d_ymd,
+                                "home_team": t_home,
+                                "away_team": t_away,
+                                "home_score": h_score,
+                                "away_score": a_score,
+                                "total": h_score + a_score,
+                                "state": state,
+                                "completed": completed,
+                                "detail": det_state,
+                                "score_str": score_str,
+                                "winner": t_home if h_score > a_score else (t_away if a_score > h_score else "tie")
+                            }))
                 else:
                     for tev in payload.get("events", []):
                         for grp in tev.get("groupings", []):
@@ -626,14 +661,18 @@ class HistoryTracker:
             pts_match = re.findall(r"(\d+(?:\.\d+)?)\+?\s*puntos", sel_lower)
             reb_match = re.findall(r"(\d+(?:\.\d+)?)\+?\s*rebotes", sel_lower)
             ast_match = re.findall(r"(\d+(?:\.\d+)?)\+?\s*asistencias", sel_lower)
+            threes_match = re.findall(r"(\d+(?:\.\d+)?)\+?\s*(?:triples|tiros de 3|3 puntos|3pm)", sel_lower)
 
             col_label, stat_unit = "PTS", "PTS"
+            is_3pt = False
             if pts_match:
                 target_val, col_label, stat_unit = float(pts_match[0]), "PTS", "PTS"
             elif reb_match:
                 target_val, col_label, stat_unit = float(reb_match[0]), "REB", "REB"
             elif ast_match:
                 target_val, col_label, stat_unit = float(ast_match[0]), "AST", "AST"
+            elif threes_match:
+                target_val, col_label, stat_unit, is_3pt = float(threes_match[0]), "3PT", "Triples", True
             else:
                 nums = re.findall(r"[-+]?\d*\.\d+|\d+", sel_lower)
                 target_val = float(nums[0]) if nums else 20.0
@@ -649,7 +688,11 @@ class HistoryTracker:
                                 stats_arr = ath.get("stats", [])
                                 if idx < len(stats_arr):
                                     try:
-                                        stat_val = float(stats_arr[idx])
+                                        raw_s = str(stats_arr[idx])
+                                        if is_3pt and "-" in raw_s:
+                                            stat_val = float(raw_s.split("-")[0])
+                                        else:
+                                            stat_val = float(raw_s)
                                         found = True
                                         break
                                     except (ValueError, TypeError):
